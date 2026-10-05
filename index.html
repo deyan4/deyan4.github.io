@@ -8,7 +8,7 @@
 <meta property="og:title" content="Deyan Chernogorski — Shopify Plus Engineer">
 <meta property="og:description" content="Shopify performance & front-end developer. Custom themes, apps, Shopify Functions and Core Web Vitals.">
 <meta property="og:type" content="profile">
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='22' fill='%2316a34a'/><text x='50' y='68' font-size='52' font-family='sans-serif' font-weight='700' text-anchor='middle' fill='white'>D</text></svg>">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='22' fill='%232563eb'/><text x='50' y='68' font-size='52' font-family='sans-serif' font-weight='700' text-anchor='middle' fill='white'>D</text></svg>">
 <script>
   try {
     var t = localStorage.getItem('theme');
@@ -24,10 +24,10 @@
     --text: #eaf0f6;
     --muted: #93a0b2;
     --line: rgba(255,255,255,.1);
-    --accent: #2ee07a;
-    --accent2: #38bdf8;
-    --accent-ink: #04200f;
-    --glow: rgba(46,224,122,.18);
+    --accent: #3b9cff;
+    --accent2: #22d3ee;
+    --accent-ink: #031328;
+    --glow: rgba(59,156,255,.2);
   }
   :root[data-theme="light"] {
     --bg: #f5f7fa;
@@ -36,10 +36,10 @@
     --text: #0f172a;
     --muted: #586376;
     --line: rgba(15,23,42,.1);
-    --accent: #12a150;
-    --accent2: #0284c7;
+    --accent: #2563eb;
+    --accent2: #0891b2;
     --accent-ink: #ffffff;
-    --glow: rgba(18,161,80,.16);
+    --glow: rgba(37,99,235,.16);
   }
   * { box-sizing: border-box; }
   html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
@@ -549,14 +549,14 @@
   function draw() {
     ctx.clearRect(0, 0, W, H);
     var light = root.dataset.theme === 'light';
-    var col = light ? '18,161,80' : '46,224,122';
+    var col = light ? '37,99,235' : '59,156,255';
     var now = performance.now() / 1000;
 
     /* drifting aurora */
     var t = now * (reduce ? .06 : .15);
     var blobs = [
       [.75 + Math.sin(t) * .12, .2 + Math.cos(t * .8) * .1, light ? 'rgba(56,189,248,.12)' : 'rgba(99,102,241,.22)'],
-      [.15 + Math.cos(t * .7) * .12, .8 + Math.sin(t) * .1, light ? 'rgba(18,161,80,.10)' : 'rgba(46,224,122,.14)'],
+      [.15 + Math.cos(t * .7) * .12, .8 + Math.sin(t) * .1, light ? 'rgba(37,99,235,.10)' : 'rgba(59,130,246,.16)'],
       [.5 + Math.sin(t * .6 + 2) * .2, .5 + Math.cos(t * .9) * .15, light ? 'rgba(168,85,247,.07)' : 'rgba(168,85,247,.12)']
     ];
     for (var bi = 0; bi < blobs.length; bi++) {
