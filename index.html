@@ -274,6 +274,19 @@
   .qa summary:focus-visible { outline: 3px solid var(--accent); outline-offset: -3px; border-radius: 16px; }
   .qa p { margin: 0; padding: 0 22px 20px; color: var(--muted); }
 
+
+  /* ---------- FAQ + CTA side by side ---------- */
+  .duo { display: grid; grid-template-columns: 1.35fr 1fr; gap: 36px; align-items: start; padding: 72px 0 64px; }
+  .duo > section { padding-top: 0; }
+  .duo .faq { max-width: none; }
+  .duo .final { position: sticky; top: 90px; text-align: left; padding: 36px; border: 1px solid var(--line); border-radius: 24px; overflow: hidden;
+    background: linear-gradient(160deg, var(--card-hover), var(--card)); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); }
+  .duo .final::before { content: ""; position: absolute; right: -90px; top: -90px; width: 280px; height: 280px; border-radius: 50%; background: radial-gradient(circle, var(--glow), transparent 70%); pointer-events: none; }
+  .duo .final > * { position: relative; }
+  .duo .final h2 { font-size: clamp(1.6rem, 3vw, 2.2rem); }
+  .duo .final .cta { justify-content: flex-start; }
+  .duo .final .btn { flex: 1 1 100%; justify-content: center; }
+
   /* ---------- footer cta ---------- */
   .final { text-align: center; padding: 72px 0 56px; }
   .final h2 { font-size: clamp(1.8rem, 5vw, 2.8rem); letter-spacing: -.03em; margin: 0 0 10px; }
@@ -290,6 +303,8 @@
     .tilt-wrap { max-width: 380px; }
     .stats { grid-template-columns: repeat(2, 1fr); }
     .brands { grid-template-columns: repeat(3, 1fr); }
+    .duo { grid-template-columns: 1fr; gap: 56px; }
+    .duo .final { position: static; }
     .showcase { grid-template-columns: 1fr; }
     .tabs { grid-auto-flow: column; grid-auto-columns: 78%; overflow-x: auto; padding-bottom: 6px; scroll-snap-type: x mandatory; scrollbar-width: none; }
     .tabs::-webkit-scrollbar { display: none; }
@@ -488,6 +503,7 @@
     </div>
   </section>
 
+  <div class="duo">
   <section id="faq">
     <h2 class="title reveal">FAQ</h2>
     <p class="sub reveal">Straight from my ShopExperts profile.</p>
@@ -512,6 +528,7 @@
       <a class="btn" href="https://github.com/deyan4" target="_blank" rel="noopener">GitHub</a>
     </div>
   </section>
+  </div>
 </main>
 
 <footer>© <span id="yr"></span> deyan4 · Ruse, Bulgaria</footer>
