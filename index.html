@@ -284,8 +284,8 @@
   .duo .final::before { content: ""; position: absolute; right: -90px; top: -90px; width: 280px; height: 280px; border-radius: 50%; background: radial-gradient(circle, var(--glow), transparent 70%); pointer-events: none; }
   .duo .final > * { position: relative; }
   .duo .final h2 { font-size: clamp(1.6rem, 3vw, 2.2rem); }
-  .duo .final .cta { justify-content: flex-start; }
-  .duo .final .btn { flex: 1 1 100%; justify-content: center; }
+  .duo .final .cta { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .duo .final .btn { justify-content: center; padding: 12px 10px; font-size: .95rem; }
 
   /* ---------- footer cta ---------- */
   .final { text-align: center; padding: 72px 0 56px; }
@@ -408,7 +408,7 @@
         <h3 id="ptitle"></h3>
         <p id="pdesc"></p>
         <ul id="plist"></ul>
-        <a class="btn primary" href="https://dash.shopexperts.com/get-free-quote?expert=deyan-chernogorski&amp;cta_source=expert_profile_hero" target="_blank" rel="noopener">Get a quote<span class="long">&nbsp;on ShopExperts</span>&nbsp;→</a>
+        <a class="btn primary" href="https://dash.shopexperts.com/get-free-quote?expert=deyan-chernogorski&amp;cta_source=expert_profile_hero" target="_blank" rel="noopener"><span>Get a quote<span class="long"> on ShopExperts</span> →</span></a>
       </div>
     </div>
   </section>
@@ -522,7 +522,7 @@
     <h2 class="reveal">Let's make your store <span class="grad">faster</span>.</h2>
     <p class="reveal">Tell me about your project and I'll get back to you.</p>
     <div class="cta reveal">
-      <a class="btn primary" href="https://dash.shopexperts.com/get-free-quote?expert=deyan-chernogorski&amp;cta_source=expert_profile_hero" target="_blank" rel="noopener">Hire me on ShopExperts →</a>
+      <a class="btn primary" href="https://dash.shopexperts.com/get-free-quote?expert=deyan-chernogorski&amp;cta_source=expert_profile_hero" target="_blank" rel="noopener"><span>Hire me<span class="long"> on ShopExperts</span> →</span></a>
       <a class="btn" href="#" data-u="deyan4" data-d="gmail.com" data-mail>Email me</a>
       <a class="btn" href="https://www.linkedin.com/in/deyan4/" target="_blank" rel="noopener">LinkedIn</a>
       <a class="btn" href="https://github.com/deyan4" target="_blank" rel="noopener">GitHub</a>
