@@ -239,8 +239,8 @@
 
 
   /* ---------- brands ---------- */
-  .brands { display: grid; grid-template-columns: repeat(5, 1fr); gap: 14px; }
-  .brand { display: grid; place-items: center; height: 76px; padding: 14px 18px; border-radius: 14px; background: #fff; border: 1px solid var(--line); text-decoration: none; transition: box-shadow .25s, border-color .25s; }
+  .brands { display: flex; gap: 14px; width: max-content; padding: 4px 0; }
+  .brand { flex: none; width: 176px; display: grid; place-items: center; height: 76px; padding: 14px 18px; border-radius: 14px; background: #fff; border: 1px solid var(--line); text-decoration: none; transition: box-shadow .25s, border-color .25s; }
   .brand.dk { background: #0f1620; }
   .brand img { max-width: 72%; max-height: 32px; width: auto; height: auto; object-fit: contain; }
   .brand:hover { border-color: var(--accent); box-shadow: 0 0 26px var(--glow); }
@@ -302,7 +302,6 @@
     .hero { grid-template-columns: 1fr; }
     .tilt-wrap { max-width: 380px; }
     .stats { grid-template-columns: repeat(2, 1fr); }
-    .brands { grid-template-columns: repeat(3, 1fr); }
     .duo { grid-template-columns: 1fr; gap: 56px; }
     .duo .final { position: static; }
     .showcase { grid-template-columns: 1fr; }
@@ -314,7 +313,7 @@
     .vitals { width: 100%; }
     nav.top .links a:not(.nav-cta) { display: none; }
   }
-  @media (max-width: 520px) { .brands { grid-template-columns: repeat(2, 1fr); } .brand { height: 66px; padding: 10px 14px; } .brand img { max-height: 26px; } .quote { padding: 26px 20px; } .btn { flex: 1 1 100%; justify-content: center; } .panel .btn { align-self: stretch; flex: none; } .btn .long { display: none; } }
+  @media (max-width: 520px) { .brand { width: 140px; height: 66px; padding: 10px 14px; } .brand img { max-height: 26px; } .quote { padding: 26px 20px; } .btn { flex: 1 1 100%; justify-content: center; } .panel .btn { align-self: stretch; flex: none; } .btn .long { display: none; } }
 </style>
 </head>
 <body>
@@ -438,23 +437,25 @@
 
   <section id="brands">
     <h2 class="title reveal">Stores I've worked on</h2>
-    <p class="sub reveal">Brands I've built, customized and optimized Shopify stores for.</p>
-    <div class="brands">
-      <a class="brand reveal" style="--d:0.00s" href="https://nycementtile.com/" target="_blank" rel="noopener" title="New York Cement Tile"><img src="img/logos/nycementtile.png" alt="New York Cement Tile" loading="lazy"></a>
+    <p class="sub reveal">Brands I've built, customized and optimized Shopify stores for. Drag or swipe to explore.</p>
+    <div class="marquee reveal" aria-label="Brands, scroll sideways">
+      <div class="brands">
+      <a class="brand" href="https://nycementtile.com/" target="_blank" rel="noopener" title="New York Cement Tile"><img src="img/logos/nycementtile.png" alt="New York Cement Tile" loading="lazy"></a>
       <a class="brand reveal dk" style="--d:0.05s" href="https://www.homesecureshop.co.uk/" target="_blank" rel="noopener" title="Home Secure"><img src="img/logos/homesecure.png" alt="Home Secure" loading="lazy"></a>
-      <a class="brand reveal" style="--d:0.10s" href="https://ines-santos.com/" target="_blank" rel="noopener" title="Inês Santos"><img src="img/logos/inessantos.png" alt="Inês Santos" loading="lazy"></a>
-      <a class="brand reveal" style="--d:0.15s" href="https://davidoutwear.com/" target="_blank" rel="noopener" title="David Outwear"><img src="img/logos/david.svg" alt="David Outwear" loading="lazy"></a>
-      <a class="brand reveal" style="--d:0.20s" href="https://www.carlheim.com/" target="_blank" rel="noopener" title="By Carlheim"><img src="img/logos/carlheim.png" alt="By Carlheim" loading="lazy"></a>
-      <a class="brand reveal" style="--d:0.00s" href="https://anellabees.com/" target="_blank" rel="noopener" title="Anellabees"><img src="img/logos/anellabees.png" alt="Anellabees" loading="lazy"></a>
-      <a class="brand reveal" style="--d:0.05s" href="https://saturdayskin.com/" target="_blank" rel="noopener" title="Saturday Skin"><img src="img/logos/saturdayskin.png" alt="Saturday Skin" loading="lazy"></a>
-      <a class="brand reveal" style="--d:0.10s" href="https://shop.southbankcentre.co.uk/" target="_blank" rel="noopener" title="Southbank Centre Shop"><img src="img/logos/southbank.png" alt="Southbank Centre Shop" loading="lazy"></a>
-      <a class="brand reveal" style="--d:0.15s" href="https://delanomillwork.com/" target="_blank" rel="noopener" title="The Delano Group"><img src="img/logos/delano.png" alt="The Delano Group" loading="lazy"></a>
-      <a class="brand reveal" style="--d:0.20s" href="https://whiteoakpastures.com/" target="_blank" rel="noopener" title="White Oak Pastures"><img src="img/logos/whiteoak.png" alt="White Oak Pastures" loading="lazy"></a>
-      <a class="brand reveal" style="--d:0.00s" href="https://luckywholesale.net/" target="_blank" rel="noopener" title="Lucky Wholesale"><img src="img/logos/lucky.png" alt="Lucky Wholesale" loading="lazy"></a>
-      <a class="brand reveal" style="--d:0.05s" href="https://footydepot.com/" target="_blank" rel="noopener" title="Footy Depot"><img src="img/logos/footydepot.png" alt="Footy Depot" loading="lazy"></a>
-      <a class="brand reveal" style="--d:0.10s" href="https://www.myza.co/" target="_blank" rel="noopener" title="Myza"><img src="img/logos/myza.png" alt="Myza" loading="lazy"></a>
-      <a class="brand reveal" style="--d:0.15s" href="https://puremountain.com/" target="_blank" rel="noopener" title="Pure Mountain Botanicals"><img src="img/logos/puremountain.png" alt="Pure Mountain Botanicals" loading="lazy"></a>
-      <a class="brand reveal" style="--d:0.20s" href="https://www.swiss3dguards.ch/" target="_blank" rel="noopener" title="Swiss 3D Guards"><img src="img/logos/swiss3d.png" alt="Swiss 3D Guards" loading="lazy"></a>
+      <a class="brand" href="https://ines-santos.com/" target="_blank" rel="noopener" title="Inês Santos"><img src="img/logos/inessantos.png" alt="Inês Santos" loading="lazy"></a>
+      <a class="brand" href="https://davidoutwear.com/" target="_blank" rel="noopener" title="David Outwear"><img src="img/logos/david.svg" alt="David Outwear" loading="lazy"></a>
+      <a class="brand" href="https://www.carlheim.com/" target="_blank" rel="noopener" title="By Carlheim"><img src="img/logos/carlheim.png" alt="By Carlheim" loading="lazy"></a>
+      <a class="brand" href="https://anellabees.com/" target="_blank" rel="noopener" title="Anellabees"><img src="img/logos/anellabees.png" alt="Anellabees" loading="lazy"></a>
+      <a class="brand" href="https://saturdayskin.com/" target="_blank" rel="noopener" title="Saturday Skin"><img src="img/logos/saturdayskin.png" alt="Saturday Skin" loading="lazy"></a>
+      <a class="brand" href="https://shop.southbankcentre.co.uk/" target="_blank" rel="noopener" title="Southbank Centre Shop"><img src="img/logos/southbank.png" alt="Southbank Centre Shop" loading="lazy"></a>
+      <a class="brand" href="https://delanomillwork.com/" target="_blank" rel="noopener" title="The Delano Group"><img src="img/logos/delano.png" alt="The Delano Group" loading="lazy"></a>
+      <a class="brand" href="https://whiteoakpastures.com/" target="_blank" rel="noopener" title="White Oak Pastures"><img src="img/logos/whiteoak.png" alt="White Oak Pastures" loading="lazy"></a>
+      <a class="brand" href="https://luckywholesale.net/" target="_blank" rel="noopener" title="Lucky Wholesale"><img src="img/logos/lucky.png" alt="Lucky Wholesale" loading="lazy"></a>
+      <a class="brand" href="https://footydepot.com/" target="_blank" rel="noopener" title="Footy Depot"><img src="img/logos/footydepot.png" alt="Footy Depot" loading="lazy"></a>
+      <a class="brand" href="https://www.myza.co/" target="_blank" rel="noopener" title="Myza"><img src="img/logos/myza.png" alt="Myza" loading="lazy"></a>
+      <a class="brand" href="https://puremountain.com/" target="_blank" rel="noopener" title="Pure Mountain Botanicals"><img src="img/logos/puremountain.png" alt="Pure Mountain Botanicals" loading="lazy"></a>
+      <a class="brand" href="https://www.swiss3dguards.ch/" target="_blank" rel="noopener" title="Swiss 3D Guards"><img src="img/logos/swiss3d.png" alt="Swiss 3D Guards" loading="lazy"></a>
+      </div>
     </div>
   </section>
 
@@ -541,34 +542,39 @@
     try { localStorage.setItem('theme', next); } catch (e) {}
   });
 
-  /* scrollable, auto-drifting, endless strip (drag / swipe / wheel; pauses while you interact) */
-  var mq = document.querySelector('.marquee'), m = document.getElementById('marq');
-  m.innerHTML += m.innerHTML + m.innerHTML;
-  var pos = 0, unit = 0, paused = false, dragging = false, dragX = 0, dragLeft = 0, resumeAt = 0;
-  function wrap() {
-    if (!unit) return;
-    if (mq.scrollLeft >= unit * 2) mq.scrollLeft -= unit;
-    else if (mq.scrollLeft <= 0) mq.scrollLeft += unit;
+  /* scrollable, auto-drifting, endless strips (drag / swipe / wheel; pause while you interact) */
+  function makeStrip(mq, dir) {
+    var track = mq.firstElementChild;
+    track.innerHTML += track.innerHTML + track.innerHTML;
+    var pos = 0, unit = 0, paused = false, dragging = false, moved = 0, dragX = 0, dragLeft = 0, resumeAt = 0;
+    function wrap() {
+      if (!unit) return;
+      if (mq.scrollLeft >= unit * 2) mq.scrollLeft -= unit;
+      else if (mq.scrollLeft <= 0) mq.scrollLeft += unit;
+    }
+    function init() { unit = track.scrollWidth / 3; mq.scrollLeft = unit; pos = mq.scrollLeft; }
+    addEventListener('load', init); addEventListener('resize', init); init();
+    mq.addEventListener('scroll', wrap, { passive: true });
+    mq.addEventListener('pointerenter', function (e) { if (e.pointerType === 'mouse') paused = true; });
+    mq.addEventListener('pointerleave', function (e) { if (e.pointerType === 'mouse') paused = false; });
+    mq.addEventListener('pointerdown', function (e) {
+      resumeAt = Infinity; moved = 0;
+      if (e.pointerType !== 'mouse') return;
+      dragging = true; dragX = e.clientX; dragLeft = mq.scrollLeft; mq.classList.add('grabbing');
+    });
+    addEventListener('pointermove', function (e) { if (dragging) { moved = Math.abs(e.clientX - dragX); mq.scrollLeft = dragLeft - (e.clientX - dragX); } });
+    function release() { dragging = false; mq.classList.remove('grabbing'); resumeAt = performance.now() + 1500; }
+    addEventListener('pointerup', release); addEventListener('pointercancel', release);
+    mq.addEventListener('click', function (e) { if (moved > 5) { e.preventDefault(); moved = 0; } }, true);
+    mq.addEventListener('dragstart', function (e) { e.preventDefault(); });
+    mq.addEventListener('wheel', function () { resumeAt = performance.now() + 1500; }, { passive: true });
+    (function drift(t) {
+      if (!paused && !dragging && t > resumeAt) { pos += dir * (reduce ? .25 : .6); mq.scrollLeft = pos; wrap(); pos = mq.scrollLeft + (pos % 1); }
+      else pos = mq.scrollLeft;
+      requestAnimationFrame(drift);
+    })(performance.now());
   }
-  function initMarquee() { unit = m.scrollWidth / 3; mq.scrollLeft = unit; pos = mq.scrollLeft; }
-  addEventListener('load', initMarquee); addEventListener('resize', initMarquee); initMarquee();
-  mq.addEventListener('scroll', wrap, { passive: true });
-  mq.addEventListener('pointerenter', function (e) { if (e.pointerType === 'mouse') paused = true; });
-  mq.addEventListener('pointerleave', function (e) { if (e.pointerType === 'mouse') paused = false; });
-  mq.addEventListener('pointerdown', function (e) {
-    resumeAt = Infinity;
-    if (e.pointerType !== 'mouse') return;
-    dragging = true; dragX = e.clientX; dragLeft = mq.scrollLeft; mq.classList.add('grabbing');
-  });
-  addEventListener('pointermove', function (e) { if (dragging) mq.scrollLeft = dragLeft - (e.clientX - dragX); });
-  addEventListener('pointerup', function () { dragging = false; mq.classList.remove('grabbing'); resumeAt = performance.now() + 1500; });
-  addEventListener('pointercancel', function () { dragging = false; mq.classList.remove('grabbing'); resumeAt = performance.now() + 1500; });
-  mq.addEventListener('wheel', function () { resumeAt = performance.now() + 1500; }, { passive: true });
-  (function drift(t) {
-    if (!paused && !dragging && t > resumeAt) { pos += reduce ? .25 : .6; mq.scrollLeft = pos; wrap(); pos = mq.scrollLeft + (pos % 1); }
-    else pos = mq.scrollLeft;
-    requestAnimationFrame(drift);
-  })(performance.now());
+  document.querySelectorAll('.marquee').forEach(function (mq, k) { makeStrip(mq, k === 0 ? 1 : -1); });
 
   /* typing headline */
   var phrases = ['Shopify Plus Engineer', 'Core Web Vitals fixer', 'Custom theme & app builder', 'Shopify Functions developer'];
