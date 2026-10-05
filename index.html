@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -9,183 +9,502 @@
 <meta property="og:description" content="Shopify performance & front-end developer. Custom themes, apps, Shopify Functions and Core Web Vitals.">
 <meta property="og:type" content="profile">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='22' fill='%2316a34a'/><text x='50' y='68' font-size='52' font-family='sans-serif' font-weight='700' text-anchor='middle' fill='white'>D</text></svg>">
+<script>
+  try {
+    var t = localStorage.getItem('theme');
+    if (!t) t = matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+    document.documentElement.dataset.theme = t;
+  } catch (e) {}
+</script>
 <style>
   :root {
-    --bg: #f4f6f8;
-    --card: #ffffff;
-    --text: #0f172a;
-    --muted: #5b6475;
-    --line: #e3e8ee;
-    --accent: #16a34a;
-    --accent-ink: #ffffff;
-    --chip: #eef2f6;
-    --shadow: 0 10px 40px rgba(15, 23, 42, .08);
+    --bg: #070b10;
+    --card: rgba(255,255,255,.04);
+    --card-hover: rgba(255,255,255,.07);
+    --text: #eaf0f6;
+    --muted: #93a0b2;
+    --line: rgba(255,255,255,.1);
+    --accent: #2ee07a;
+    --accent2: #38bdf8;
+    --accent-ink: #04200f;
+    --glow: rgba(46,224,122,.18);
   }
-  @media (prefers-color-scheme: dark) {
-    :root {
-      --bg: #0b0f14;
-      --card: #131a22;
-      --text: #e8edf3;
-      --muted: #98a3b3;
-      --line: #223040;
-      --accent: #22c55e;
-      --accent-ink: #052e16;
-      --chip: #1b2531;
-      --shadow: 0 10px 40px rgba(0, 0, 0, .45);
-    }
+  :root[data-theme="light"] {
+    --bg: #f5f7fa;
+    --card: rgba(255,255,255,.75);
+    --card-hover: #ffffff;
+    --text: #0f172a;
+    --muted: #586376;
+    --line: rgba(15,23,42,.1);
+    --accent: #12a150;
+    --accent2: #0284c7;
+    --accent-ink: #ffffff;
+    --glow: rgba(18,161,80,.16);
   }
   * { box-sizing: border-box; }
-  html { -webkit-text-size-adjust: 100%; }
+  html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
   body {
     margin: 0;
-    min-height: 100vh;
-    display: grid;
-    place-items: center;
-    padding: 24px 16px;
     background: var(--bg);
     color: var(--text);
-    font: 16px/1.55 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    font: 16px/1.6 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    overflow-x: hidden;
+    transition: background .3s, color .3s;
   }
-  .card {
-    width: 100%;
-    max-width: 640px;
-    background: var(--card);
-    border: 1px solid var(--line);
-    border-radius: 20px;
-    box-shadow: var(--shadow);
-    overflow: hidden;
+  a { color: inherit; }
+
+  /* ---------- background ---------- */
+  #bg { position: fixed; inset: 0; z-index: -2; width: 100%; height: 100%; }
+  .spot {
+    position: fixed; inset: 0; z-index: -1; pointer-events: none;
+    background: radial-gradient(520px circle at var(--mx, 50%) var(--my, 30%), var(--glow), transparent 70%);
   }
-  .top {
-    padding: 36px 32px 24px;
-    display: flex;
-    gap: 20px;
-    align-items: center;
+  .progress {
+    position: fixed; top: 0; left: 0; height: 3px; width: 100%;
+    transform-origin: 0 50%; transform: scaleX(0);
+    background: linear-gradient(90deg, var(--accent), var(--accent2));
+    z-index: 50;
+  }
+
+  /* ---------- layout ---------- */
+  .wrap { max-width: 980px; margin: 0 auto; padding: 0 20px; }
+  nav.top {
+    position: sticky; top: 0; z-index: 40;
+    backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+    background: color-mix(in srgb, var(--bg) 60%, transparent);
+    border-bottom: 1px solid var(--line);
+  }
+  nav.top .wrap { display: flex; align-items: center; gap: 18px; height: 60px; }
+  .logo { font-weight: 800; letter-spacing: -.03em; text-decoration: none; }
+  .logo i { color: var(--accent); font-style: normal; }
+  nav.top .links { margin-left: auto; display: flex; gap: 20px; font-size: .92rem; color: var(--muted); }
+  nav.top .links a { text-decoration: none; transition: color .15s; }
+  nav.top .links a:hover { color: var(--text); }
+  .toggle {
+    border: 1px solid var(--line); background: var(--card); color: var(--text);
+    width: 38px; height: 38px; border-radius: 50%; cursor: pointer; font-size: 1rem;
+  }
+  .toggle:hover { border-color: var(--accent); }
+  section { padding: 72px 0 0; }
+  h2.title { font-size: clamp(1.5rem, 4vw, 2rem); letter-spacing: -.02em; margin: 0 0 6px; }
+  .sub { color: var(--muted); margin: 0 0 28px; max-width: 56ch; }
+
+  /* ---------- hero ---------- */
+  .hero { padding-top: 56px; display: grid; grid-template-columns: 1.2fr .8fr; gap: 40px; align-items: center; }
+  .pill {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 6px 14px; border: 1px solid var(--line); border-radius: 999px;
+    background: var(--card); font-size: .85rem; color: var(--muted);
+  }
+  .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 0 0 var(--accent); animation: ping 2s infinite; }
+  @keyframes ping { 70% { box-shadow: 0 0 0 9px transparent; } 100% { box-shadow: 0 0 0 0 transparent; } }
+  h1 { font-size: clamp(2.3rem, 7vw, 4rem); line-height: 1.05; letter-spacing: -.04em; margin: 18px 0 14px; }
+  .grad {
+    background: linear-gradient(100deg, var(--accent), var(--accent2), var(--accent));
+    background-size: 200% auto; -webkit-background-clip: text; background-clip: text;
+    -webkit-text-fill-color: transparent; color: transparent;
+    animation: shine 6s linear infinite;
+  }
+  @keyframes shine { to { background-position: 200% center; } }
+  .typed { font-size: clamp(1.1rem, 3vw, 1.4rem); color: var(--muted); min-height: 1.8em; margin: 0 0 18px; }
+  .typed b { color: var(--text); font-weight: 600; }
+  .caret { display: inline-block; width: 2px; height: 1.1em; background: var(--accent); vertical-align: -.15em; margin-left: 2px; animation: blink 1s steps(1) infinite; }
+  @keyframes blink { 50% { opacity: 0; } }
+  .lead { color: var(--muted); max-width: 52ch; margin: 0 0 26px; }
+  .cta { display: flex; flex-wrap: wrap; gap: 12px; }
+  .btn {
+    position: relative; display: inline-flex; align-items: center; gap: 8px;
+    padding: 12px 22px; border-radius: 12px; border: 1px solid var(--line);
+    background: var(--card); color: var(--text); text-decoration: none; font-weight: 600;
+    transition: transform .15s, border-color .15s, background .15s;
+  }
+  .btn:hover { transform: translateY(-2px); border-color: var(--accent); background: var(--card-hover); }
+  .btn.primary { background: linear-gradient(135deg, var(--accent), var(--accent2)); color: var(--accent-ink); border: 0; }
+  .btn:focus-visible, .toggle:focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; }
+
+  .tilt-wrap { perspective: 900px; }
+  .id-card {
+    transform-style: preserve-3d;
+    border: 1px solid var(--line); border-radius: 24px; padding: 28px;
+    background: linear-gradient(160deg, var(--card-hover), var(--card));
+    backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+    box-shadow: 0 30px 80px rgba(0,0,0,.28);
+    transition: transform .15s ease-out;
+    position: relative; overflow: hidden;
+  }
+  .id-card::after {
+    content: ""; position: absolute; inset: 0; pointer-events: none;
+    background: radial-gradient(300px circle at var(--gx, 50%) var(--gy, 0%), rgba(255,255,255,.14), transparent 60%);
   }
   .avatar {
-    flex: none;
-    width: 76px; height: 76px;
-    border-radius: 50%;
-    display: grid; place-items: center;
-    background: var(--accent);
-    color: var(--accent-ink);
-    font-size: 32px; font-weight: 700;
-    letter-spacing: -1px;
+    width: 84px; height: 84px; border-radius: 24px; display: grid; place-items: center;
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    color: var(--accent-ink); font-size: 34px; font-weight: 800; letter-spacing: -1px;
+    transform: translateZ(40px);
   }
-  h1 { margin: 0; font-size: 1.7rem; line-height: 1.2; letter-spacing: -.02em; }
-  .role { margin: 2px 0 0; color: var(--accent); font-weight: 600; }
-  .meta { margin: 6px 0 0; color: var(--muted); font-size: .9rem; }
-  .body { padding: 0 32px 8px; }
-  .lead { margin: 0 0 20px; color: var(--muted); }
-  .stats {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 12px;
-    margin: 0 0 24px;
+  .id-card h3 { margin: 18px 0 2px; font-size: 1.35rem; letter-spacing: -.02em; transform: translateZ(30px); }
+  .id-card p { margin: 0; color: var(--muted); font-size: .92rem; }
+  .id-meta { margin-top: 18px; display: grid; gap: 8px; font-size: .9rem; transform: translateZ(20px); }
+  .id-meta div { display: flex; justify-content: space-between; border-top: 1px solid var(--line); padding-top: 8px; }
+  .id-meta span { color: var(--muted); }
+
+  /* ---------- stats ---------- */
+  .stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
+  .stat { border: 1px solid var(--line); background: var(--card); border-radius: 18px; padding: 22px 12px; text-align: center; }
+  .stat b { display: block; font-size: clamp(1.6rem, 4vw, 2.2rem); letter-spacing: -.03em; }
+  .stat span { color: var(--muted); font-size: .85rem; }
+
+  /* ---------- services ---------- */
+  .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+  .svc {
+    position: relative; border: 1px solid var(--line); background: var(--card);
+    border-radius: 18px; padding: 24px; overflow: hidden;
+    transition: transform .2s, border-color .2s;
   }
-  .stat {
-    background: var(--chip);
-    border-radius: 12px;
-    padding: 12px 8px;
-    text-align: center;
+  .svc::before {
+    content: ""; position: absolute; inset: 0; opacity: 0; transition: opacity .25s; pointer-events: none;
+    background: radial-gradient(260px circle at var(--x, 50%) var(--y, 50%), var(--glow), transparent 70%);
   }
-  .stat b { display: block; font-size: 1.25rem; letter-spacing: -.01em; }
-  .stat span { font-size: .78rem; color: var(--muted); }
-  h2 {
-    margin: 0 0 10px;
-    font-size: .75rem;
-    text-transform: uppercase;
-    letter-spacing: .09em;
-    color: var(--muted);
+  .svc:hover { transform: translateY(-4px); border-color: var(--accent); }
+  .svc:hover::before { opacity: 1; }
+  .svc .ic { font-size: 1.6rem; margin-bottom: 10px; }
+  .svc h3 { margin: 0 0 6px; font-size: 1.05rem; }
+  .svc p { margin: 0; color: var(--muted); font-size: .92rem; }
+
+  /* ---------- speed ---------- */
+  .speed { display: grid; grid-template-columns: auto 1fr; gap: 36px; align-items: center;
+    border: 1px solid var(--line); background: var(--card); border-radius: 22px; padding: 32px; }
+  .gauge { position: relative; width: 170px; height: 170px; }
+  .gauge svg { width: 100%; height: 100%; transform: rotate(-90deg); }
+  .gauge circle { fill: none; stroke-width: 12; stroke-linecap: round; }
+  .gauge .track { stroke: var(--line); }
+  .gauge .fill { stroke: var(--accent); stroke-dasharray: 440; stroke-dashoffset: 440; transition: stroke-dashoffset 1.6s cubic-bezier(.2,.8,.2,1); }
+  .gauge .num { position: absolute; inset: 0; display: grid; place-items: center; font-size: 2.6rem; font-weight: 800; letter-spacing: -.04em; }
+  .gauge small { position: absolute; left: 0; right: 0; bottom: 34px; text-align: center; color: var(--muted); font-size: .72rem; }
+  .vitals { list-style: none; margin: 0; padding: 0; display: grid; gap: 14px; }
+  .vitals li { display: grid; gap: 6px; }
+  .vitals .row { display: flex; justify-content: space-between; font-size: .92rem; }
+  .vitals .row span { color: var(--muted); }
+  .bar { height: 8px; border-radius: 99px; background: var(--line); overflow: hidden; }
+  .bar i { display: block; height: 100%; width: 0; border-radius: 99px; background: linear-gradient(90deg, var(--accent), var(--accent2)); transition: width 1.4s cubic-bezier(.2,.8,.2,1); }
+
+  /* ---------- marquee ---------- */
+  .marquee { overflow: hidden; mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent); -webkit-mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent); }
+  .track-m { display: flex; gap: 12px; width: max-content; animation: scroll 32s linear infinite; }
+  .marquee:hover .track-m { animation-play-state: paused; }
+  .track-m span { border: 1px solid var(--line); background: var(--card); border-radius: 999px; padding: 9px 20px; white-space: nowrap; }
+  @keyframes scroll { to { transform: translateX(-50%); } }
+
+  /* ---------- quote ---------- */
+  .quote { border: 1px solid var(--line); background: var(--card); border-radius: 22px; padding: 36px; text-align: center; }
+  .quote .stars { color: #fbbf24; letter-spacing: 4px; font-size: 1.2rem; }
+  .quote blockquote { margin: 14px auto 10px; font-size: clamp(1.15rem, 3vw, 1.5rem); max-width: 34ch; letter-spacing: -.01em; }
+  .quote cite { color: var(--muted); font-style: normal; font-size: .9rem; }
+  .themes { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; margin-top: 18px; }
+  .themes span { background: var(--card-hover); border: 1px solid var(--line); border-radius: 99px; padding: 4px 12px; font-size: .82rem; color: var(--muted); }
+
+  /* ---------- footer cta ---------- */
+  .final { text-align: center; padding: 72px 0 56px; }
+  .final h2 { font-size: clamp(1.8rem, 5vw, 2.8rem); letter-spacing: -.03em; margin: 0 0 10px; }
+  .final p { color: var(--muted); margin: 0 0 26px; }
+  .final .cta { justify-content: center; }
+  footer { border-top: 1px solid var(--line); padding: 22px 0; text-align: center; color: var(--muted); font-size: .85rem; }
+
+  /* ---------- reveal ---------- */
+  .reveal { opacity: 0; transform: translateY(24px); transition: opacity .7s ease, transform .7s ease; transition-delay: var(--d, 0s); }
+  .reveal.in { opacity: 1; transform: none; }
+
+  @media (max-width: 820px) {
+    .hero { grid-template-columns: 1fr; }
+    .tilt-wrap { max-width: 380px; }
+    .stats { grid-template-columns: repeat(2, 1fr); }
+    .grid { grid-template-columns: 1fr 1fr; }
+    .speed { grid-template-columns: 1fr; justify-items: center; }
+    .vitals { width: 100%; }
+    nav.top .links { display: none; }
+    nav.top .toggle { margin-left: auto; }
   }
-  .chips { list-style: none; margin: 0 0 24px; padding: 0; display: flex; flex-wrap: wrap; gap: 8px; }
-  .chips li {
-    background: var(--chip);
-    border-radius: 999px;
-    padding: 5px 12px;
-    font-size: .88rem;
-  }
-  .links {
-    display: flex; flex-wrap: wrap; gap: 10px;
-    padding: 8px 32px 32px;
-  }
-  .btn {
-    display: inline-flex; align-items: center; justify-content: center;
-    padding: 10px 18px;
-    border-radius: 10px;
-    border: 1px solid var(--line);
-    color: var(--text);
-    text-decoration: none;
-    font-weight: 600;
-    font-size: .95rem;
-    transition: transform .12s ease, border-color .12s ease;
-  }
-  .btn:hover { transform: translateY(-1px); border-color: var(--accent); }
-  .btn.primary { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
-  .btn:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
-  @media (max-width: 480px) {
-    .top { padding: 28px 20px 20px; flex-direction: column; text-align: center; }
-    .body { padding: 0 20px 4px; }
-    .links { padding: 8px 20px 24px; }
-    .btn { flex: 1 1 100%; }
+  @media (max-width: 520px) { .grid { grid-template-columns: 1fr; } .btn { flex: 1 1 100%; justify-content: center; } }
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation: none !important; transition: none !important; }
+    .reveal { opacity: 1; transform: none; }
+    html { scroll-behavior: auto; }
   }
 </style>
 </head>
 <body>
-  <main class="card">
-    <header class="top">
-      <div class="avatar" aria-hidden="true">DC</div>
-      <div>
-        <h1>Deyan Chernogorski</h1>
-        <p class="role">Shopify Plus Engineer</p>
-        <p class="meta">Ruse, Bulgaria · English, Español, Български</p>
-      </div>
-    </header>
+<canvas id="bg" aria-hidden="true"></canvas>
+<div class="spot" aria-hidden="true"></div>
+<div class="progress" id="progress" aria-hidden="true"></div>
 
-    <section class="body">
+<nav class="top">
+  <div class="wrap">
+    <a class="logo" href="#top">deyan<i>.</i>dev</a>
+    <div class="links">
+      <a href="#services">Services</a>
+      <a href="#speed">Performance</a>
+      <a href="#stack">Stack</a>
+      <a href="#reviews">Reviews</a>
+    </div>
+    <button class="toggle" id="theme" aria-label="Toggle light and dark theme">◐</button>
+  </div>
+</nav>
+
+<main class="wrap" id="top">
+  <header class="hero">
+    <div>
+      <span class="pill"><span class="dot"></span> Available for new projects</span>
+      <h1>Hi, I'm <span class="grad">Deyan</span>.</h1>
+      <p class="typed" aria-live="off"><span id="typed"></span><span class="caret"></span></p>
       <p class="lead">
         Shopify performance &amp; front-end developer with over 10 years of experience building,
-        customizing and optimizing online stores for brands of all sizes. I focus on long-term
-        partnerships and ongoing support, not one-off handoffs.
+        customizing and optimizing online stores for brands of all sizes. Long-term partner,
+        not a one-off handoff.
       </p>
-
-      <div class="stats">
-        <div class="stat"><b>10+</b><span>years experience</span></div>
-        <div class="stat"><b>4.94 ★</b><span>70 reviews</span></div>
-        <div class="stat"><b>$65/h</b><span>starting rate</span></div>
+      <div class="cta">
+        <a class="btn primary" href="https://www.upwork.com/freelancers/~01c9ed52cc506edc33" target="_blank" rel="noopener">Hire me on Upwork →</a>
+        <a class="btn" href="https://shopexperts.com/freelancers/deyan-chernogorski" target="_blank" rel="noopener">Shop Experts profile</a>
       </div>
+    </div>
 
-      <h2>What I do</h2>
-      <ul class="chips">
-        <li>Theme customization</li>
-        <li>Custom apps</li>
-        <li>Shopify Functions</li>
-        <li>Core Web Vitals</li>
-        <li>Speed optimization</li>
-        <li>UI/UX improvements</li>
-        <li>Code audits &amp; debugging</li>
-        <li>Third-party integrations</li>
-        <li>Ongoing support</li>
+    <div class="tilt-wrap">
+      <div class="id-card" id="tilt">
+        <div class="avatar">DC</div>
+        <h3>Deyan Chernogorski</h3>
+        <p>Shopify Plus Engineer</p>
+        <div class="id-meta">
+          <div><span>Location</span> Ruse, Bulgaria</div>
+          <div><span>Languages</span> EN · ES · BG</div>
+          <div><span>Starting at</span> $65 / hour</div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <section>
+    <div class="stats">
+      <div class="stat reveal"><b data-count="10" data-suffix="+">0</b><span>years experience</span></div>
+      <div class="stat reveal" style="--d:.08s"><b data-count="4.94" data-dec="2">0</b><span>average rating ★</span></div>
+      <div class="stat reveal" style="--d:.16s"><b data-count="70">0</b><span>client reviews</span></div>
+      <div class="stat reveal" style="--d:.24s"><b data-count="67">0</b><span>five-star reviews</span></div>
+    </div>
+  </section>
+
+  <section id="services">
+    <h2 class="title reveal">What I can do for your store</h2>
+    <p class="sub reveal">From a quick fix to a full custom build, with ongoing support after launch.</p>
+    <div class="grid">
+      <article class="svc reveal"><div class="ic">🎨</div><h3>Theme customization</h3><p>Updates, new sections and layouts tailored to your brand.</p></article>
+      <article class="svc reveal" style="--d:.06s"><div class="ic">⚡</div><h3>Speed optimization</h3><p>Core Web Vitals work that makes stores load fast and convert better.</p></article>
+      <article class="svc reveal" style="--d:.12s"><div class="ic">🧩</div><h3>Custom apps</h3><p>Purpose-built Shopify apps when off-the-shelf ones don't fit.</p></article>
+      <article class="svc reveal"><div class="ic">🛠️</div><h3>Shopify Functions</h3><p>Custom discounts, shipping and checkout logic on Shopify's APIs.</p></article>
+      <article class="svc reveal" style="--d:.06s"><div class="ic">🔌</div><h3>Integrations</h3><p>Connecting your store with the third-party tools you rely on.</p></article>
+      <article class="svc reveal" style="--d:.12s"><div class="ic">🔍</div><h3>Audits &amp; debugging</h3><p>Code reviews that find what's slowing or breaking your store.</p></article>
+    </div>
+  </section>
+
+  <section id="speed">
+    <h2 class="title reveal">Performance is my specialty</h2>
+    <p class="sub reveal">The Core Web Vitals targets I build toward on every store.</p>
+    <div class="speed reveal" id="speedBox">
+      <div class="gauge">
+        <svg viewBox="0 0 160 160"><circle class="track" cx="80" cy="80" r="70"/><circle class="fill" id="fill" cx="80" cy="80" r="70"/></svg>
+        <div class="num" id="gnum">0</div>
+        <small>score goal</small>
+      </div>
+      <ul class="vitals">
+        <li><div class="row"><b>LCP</b><span>under 2.5 s</span></div><div class="bar"><i data-w="92"></i></div></li>
+        <li><div class="row"><b>INP</b><span>under 200 ms</span></div><div class="bar"><i data-w="88"></i></div></li>
+        <li><div class="row"><b>CLS</b><span>under 0.1</span></div><div class="bar"><i data-w="96"></i></div></li>
       </ul>
+    </div>
+  </section>
 
-      <h2>Works with</h2>
-      <ul class="chips">
-        <li>Klaviyo</li>
-        <li>Recharge</li>
-        <li>Smile</li>
-        <li>Rivo</li>
-        <li>MESA</li>
-        <li>Archetype Themes</li>
-        <li>Shoplift</li>
-        <li>Dynamatic Cart</li>
-      </ul>
-    </section>
+  <section id="stack">
+    <h2 class="title reveal">Apps &amp; themes I work with</h2>
+    <p class="sub reveal">Hover to pause.</p>
+    <div class="marquee reveal">
+      <div class="track-m" id="marq">
+        <span>Klaviyo</span><span>Recharge</span><span>Smile</span><span>Rivo Loyalty</span><span>MESA</span>
+        <span>Archetype Themes</span><span>Shoplift</span><span>Dynamatic Cart</span><span>FoxSell Bundle Builder</span><span>Love Loyalty Points</span>
+      </div>
+    </div>
+  </section>
 
-    <nav class="links" aria-label="Contact and profiles">
-      <a class="btn primary" href="https://www.upwork.com/freelancers/~01c9ed52cc506edc33" target="_blank" rel="noopener">Hire me on Upwork</a>
-      <a class="btn" href="https://shopexperts.com/freelancers/deyan-chernogorski" target="_blank" rel="noopener">Shop Experts</a>
+  <section id="reviews">
+    <div class="quote reveal">
+      <div class="stars" aria-label="5 stars">★★★★★</div>
+      <blockquote>“I'd give him not only 5 stars… I'd give him 7 stars.”</blockquote>
+      <cite>Client review on Shop Experts · 4.94 / 5 across 70 reviews</cite>
+      <div class="themes"><span>Fast delivery</span><span>Clear communication</span><span>High-quality work</span><span>Ongoing support</span></div>
+    </div>
+  </section>
+
+  <section class="final">
+    <h2 class="reveal">Let's make your store <span class="grad">faster</span>.</h2>
+    <p class="reveal">Tell me about your project and I'll get back to you.</p>
+    <div class="cta reveal">
+      <a class="btn primary" href="https://www.upwork.com/freelancers/~01c9ed52cc506edc33" target="_blank" rel="noopener">Hire me on Upwork →</a>
       <a class="btn" href="https://www.linkedin.com/in/deyan4/" target="_blank" rel="noopener">LinkedIn</a>
       <a class="btn" href="https://github.com/deyan4" target="_blank" rel="noopener">GitHub</a>
-    </nav>
-  </main>
+    </div>
+  </section>
+</main>
+
+<footer>© <span id="yr"></span> Deyan Chernogorski · Ruse, Bulgaria</footer>
+
+<script>
+(function () {
+  var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var root = document.documentElement;
+  document.getElementById('yr').textContent = new Date().getFullYear();
+
+  /* theme toggle */
+  document.getElementById('theme').addEventListener('click', function () {
+    var next = root.dataset.theme === 'dark' ? 'light' : 'dark';
+    root.dataset.theme = next;
+    try { localStorage.setItem('theme', next); } catch (e) {}
+  });
+
+  /* duplicate marquee content for a seamless loop */
+  var m = document.getElementById('marq');
+  m.innerHTML += m.innerHTML;
+
+  /* typing headline */
+  var phrases = ['Shopify Plus Engineer', 'Core Web Vitals fixer', 'Custom theme & app builder', 'Shopify Functions developer'];
+  var el = document.getElementById('typed'), p = 0, c = 0, del = false;
+  function type() {
+    var s = phrases[p];
+    if (reduce) { el.innerHTML = '<b>' + s + '</b>'; return; }
+    c += del ? -1 : 1;
+    el.innerHTML = '<b>' + s.slice(0, c) + '</b>';
+    var wait = del ? 28 : 65;
+    if (!del && c === s.length) { del = true; wait = 1600; }
+    else if (del && c === 0) { del = false; p = (p + 1) % phrases.length; wait = 350; }
+    setTimeout(type, wait);
+  }
+  type();
+
+  /* scroll progress */
+  var prog = document.getElementById('progress');
+  function onScroll() {
+    var h = root.scrollHeight - innerHeight;
+    prog.style.transform = 'scaleX(' + (h > 0 ? scrollY / h : 0) + ')';
+  }
+  addEventListener('scroll', onScroll, { passive: true }); onScroll();
+
+  /* cursor spotlight */
+  addEventListener('pointermove', function (e) {
+    root.style.setProperty('--mx', e.clientX + 'px');
+    root.style.setProperty('--my', e.clientY + 'px');
+  }, { passive: true });
+
+  /* service card hover glow */
+  document.querySelectorAll('.svc').forEach(function (card) {
+    card.addEventListener('pointermove', function (e) {
+      var r = card.getBoundingClientRect();
+      card.style.setProperty('--x', (e.clientX - r.left) + 'px');
+      card.style.setProperty('--y', (e.clientY - r.top) + 'px');
+    });
+  });
+
+  /* 3D tilt on the ID card */
+  var tilt = document.getElementById('tilt');
+  if (!reduce && matchMedia('(hover: hover)').matches) {
+    tilt.addEventListener('pointermove', function (e) {
+      var r = tilt.getBoundingClientRect();
+      var x = (e.clientX - r.left) / r.width, y = (e.clientY - r.top) / r.height;
+      tilt.style.transform = 'rotateY(' + ((x - .5) * 16) + 'deg) rotateX(' + ((.5 - y) * 16) + 'deg)';
+      tilt.style.setProperty('--gx', (x * 100) + '%');
+      tilt.style.setProperty('--gy', (y * 100) + '%');
+    });
+    tilt.addEventListener('pointerleave', function () { tilt.style.transform = ''; });
+  }
+
+  /* count-up numbers */
+  function countUp(node) {
+    var end = parseFloat(node.dataset.count), dec = +(node.dataset.dec || 0), suf = node.dataset.suffix || '';
+    if (reduce) { node.textContent = end.toFixed(dec) + suf; return; }
+    var t0 = null, dur = 1500;
+    (function step(t) {
+      if (t0 === null) t0 = t;
+      var k = Math.min((t - t0) / dur, 1), e = 1 - Math.pow(1 - k, 3);
+      node.textContent = (end * e).toFixed(dec) + suf;
+      if (k < 1) requestAnimationFrame(step);
+    })(performance.now());
+  }
+
+  /* gauge + bars */
+  function runSpeed() {
+    var fill = document.getElementById('fill'), num = document.getElementById('gnum');
+    fill.style.strokeDashoffset = 440 * (1 - 1);
+    var t0 = null;
+    (function step(t) {
+      if (t0 === null) t0 = t;
+      var k = reduce ? 1 : Math.min((t - t0) / 1600, 1), e = 1 - Math.pow(1 - k, 3);
+      num.textContent = Math.round(100 * e);
+      if (k < 1) requestAnimationFrame(step);
+    })(performance.now());
+    document.querySelectorAll('.bar i').forEach(function (b) { b.style.width = b.dataset.w + '%'; });
+  }
+
+  /* reveal on scroll */
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (en) {
+      if (!en.isIntersecting) return;
+      var n = en.target;
+      n.classList.add('in');
+      var b = n.querySelector && n.querySelector('[data-count]');
+      if (b) countUp(b);
+      if (n.id === 'speedBox') runSpeed();
+      io.unobserve(n);
+    });
+  }, { threshold: .25 });
+  document.querySelectorAll('.reveal').forEach(function (n) { io.observe(n); });
+
+  /* animated particle network background */
+  var cv = document.getElementById('bg'), ctx = cv.getContext('2d'), pts = [], W, H, dpr = Math.min(devicePixelRatio || 1, 2);
+  var mouse = { x: -999, y: -999 };
+  function size() {
+    W = innerWidth; H = innerHeight;
+    cv.width = W * dpr; cv.height = H * dpr;
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    var n = Math.min(Math.floor(W * H / 16000), 90);
+    pts = [];
+    for (var i = 0; i < n; i++) pts.push({ x: Math.random() * W, y: Math.random() * H, vx: (Math.random() - .5) * .35, vy: (Math.random() - .5) * .35 });
+  }
+  addEventListener('resize', size); size();
+  addEventListener('pointermove', function (e) { mouse.x = e.clientX; mouse.y = e.clientY; }, { passive: true });
+  function draw() {
+    ctx.clearRect(0, 0, W, H);
+    var light = root.dataset.theme === 'light';
+    var col = light ? '18,161,80' : '46,224,122';
+    for (var i = 0; i < pts.length; i++) {
+      var a = pts[i];
+      if (!reduce) {
+        a.x += a.vx; a.y += a.vy;
+        if (a.x < 0 || a.x > W) a.vx *= -1;
+        if (a.y < 0 || a.y > H) a.vy *= -1;
+      }
+      ctx.fillStyle = 'rgba(' + col + ',.55)';
+      ctx.beginPath(); ctx.arc(a.x, a.y, 1.6, 0, 6.283); ctx.fill();
+      for (var j = i + 1; j < pts.length; j++) {
+        var b = pts[j], dx = a.x - b.x, dy = a.y - b.y, d = dx * dx + dy * dy;
+        if (d < 14000) {
+          ctx.strokeStyle = 'rgba(' + col + ',' + (.16 * (1 - d / 14000)) + ')';
+          ctx.beginPath(); ctx.moveTo(a.x, a.y); ctx.lineTo(b.x, b.y); ctx.stroke();
+        }
+      }
+      var mx = a.x - mouse.x, my = a.y - mouse.y, md = mx * mx + my * my;
+      if (md < 25000) {
+        ctx.strokeStyle = 'rgba(56,189,248,' + (.35 * (1 - md / 25000)) + ')';
+        ctx.beginPath(); ctx.moveTo(a.x, a.y); ctx.lineTo(mouse.x, mouse.y); ctx.stroke();
+      }
+    }
+    if (!reduce) requestAnimationFrame(draw);
+  }
+  draw();
+})();
+</script>
 </body>
 </html>
