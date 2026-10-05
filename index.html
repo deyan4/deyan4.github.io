@@ -116,7 +116,7 @@
   .cta { display: flex; flex-wrap: wrap; gap: 12px; }
   .btn {
     position: relative; display: inline-flex; align-items: center; gap: 8px;
-    padding: 12px 22px; border-radius: 12px; border: 1px solid var(--line);
+    padding: 12px 22px; border-radius: 12px; white-space: nowrap; border: 1px solid var(--line);
     background: var(--card); color: var(--text); text-decoration: none; font-weight: 600;
     transition: border-color .2s, background .2s, box-shadow .25s;
   }
@@ -253,14 +253,15 @@
     .tilt-wrap { max-width: 380px; }
     .stats { grid-template-columns: repeat(2, 1fr); }
     .showcase { grid-template-columns: 1fr; }
-    .tabs { grid-auto-flow: column; grid-auto-columns: 78%; overflow-x: auto; padding-bottom: 6px; scroll-snap-type: x mandatory; }
+    .tabs { grid-auto-flow: column; grid-auto-columns: 78%; overflow-x: auto; padding-bottom: 6px; scroll-snap-type: x mandatory; scrollbar-width: none; }
+    .tabs::-webkit-scrollbar { display: none; }
     .tab { scroll-snap-align: start; }
     .panel { min-height: 0; padding: 26px; }
     .speed { grid-template-columns: 1fr; justify-items: center; }
     .vitals { width: 100%; }
     nav.top .links a:not(.nav-cta) { display: none; }
   }
-  @media (max-width: 520px) { .btn { flex: 1 1 100%; justify-content: center; } }
+  @media (max-width: 520px) { .btn { flex: 1 1 100%; justify-content: center; } .panel .btn { align-self: stretch; flex: none; } .btn .long { display: none; } }
   @media (prefers-reduced-motion: reduce) {
     *, *::before, *::after { animation: none !important; transition: none !important; }
     .reveal { opacity: 1; transform: none; }
@@ -353,7 +354,7 @@
         <h3 id="ptitle"></h3>
         <p id="pdesc"></p>
         <ul id="plist"></ul>
-        <a class="btn primary" href="https://dash.shopexperts.com/get-free-quote?expert=deyan-chernogorski&amp;cta_source=expert_profile_hero" target="_blank" rel="noopener">Get a quote on ShopExperts →</a>
+        <a class="btn primary" href="https://dash.shopexperts.com/get-free-quote?expert=deyan-chernogorski&amp;cta_source=expert_profile_hero" target="_blank" rel="noopener">Get a quote<span class="long">&nbsp;on ShopExperts</span>&nbsp;→</a>
       </div>
     </div>
   </section>
