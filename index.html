@@ -223,11 +223,11 @@
   .bar i { display: block; height: 100%; width: 0; border-radius: 99px; background: linear-gradient(90deg, var(--accent), var(--accent2)); transition: width 1.4s cubic-bezier(.2,.8,.2,1); }
 
   /* ---------- marquee ---------- */
-  .marquee { overflow: hidden; mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent); -webkit-mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent); }
-  .track-m { display: flex; gap: 12px; width: max-content; animation: scroll 32s linear infinite; }
-  .marquee:hover .track-m { animation-play-state: paused; }
+  .marquee { overflow-x: auto; scrollbar-width: none; cursor: grab; touch-action: pan-x pan-y; user-select: none; -webkit-user-select: none; mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent); -webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent); }
+  .marquee::-webkit-scrollbar { display: none; }
+  .marquee.grabbing { cursor: grabbing; }
+  .track-m { display: flex; gap: 12px; width: max-content; padding: 4px 0; }
   .track-m span { border: 1px solid var(--line); background: var(--card); border-radius: 999px; padding: 9px 20px; white-space: nowrap; }
-  @keyframes scroll { to { transform: translateX(-50%); } }
 
   /* ---------- quote ---------- */
   .quote { border: 1px solid var(--line); background: var(--card); border-radius: 22px; padding: 36px; text-align: center; }
@@ -377,7 +377,7 @@
 
   <section id="stack">
     <h2 class="title reveal">Apps &amp; themes I work with</h2>
-    <p class="sub reveal">Hover to pause.</p>
+    <p class="sub reveal">Drag or swipe to explore.</p>
     <div class="marquee reveal">
       <div class="track-m" id="marq">
         <span>Klaviyo</span><span>Recharge</span><span>Smile</span><span>Rivo Loyalty</span><span>MESA</span>
@@ -421,9 +421,34 @@
     try { localStorage.setItem('theme', next); } catch (e) {}
   });
 
-  /* duplicate marquee content for a seamless loop */
-  var m = document.getElementById('marq');
-  m.innerHTML += m.innerHTML;
+  /* scrollable, auto-drifting, endless strip (drag / swipe / wheel; pauses while you interact) */
+  var mq = document.querySelector('.marquee'), m = document.getElementById('marq');
+  m.innerHTML += m.innerHTML + m.innerHTML;
+  var pos = 0, unit = 0, paused = false, dragging = false, dragX = 0, dragLeft = 0, resumeAt = 0;
+  function wrap() {
+    if (!unit) return;
+    if (mq.scrollLeft >= unit * 2) mq.scrollLeft -= unit;
+    else if (mq.scrollLeft <= 0) mq.scrollLeft += unit;
+  }
+  function initMarquee() { unit = m.scrollWidth / 3; mq.scrollLeft = unit; pos = mq.scrollLeft; }
+  addEventListener('load', initMarquee); addEventListener('resize', initMarquee); initMarquee();
+  mq.addEventListener('scroll', wrap, { passive: true });
+  mq.addEventListener('pointerenter', function (e) { if (e.pointerType === 'mouse') paused = true; });
+  mq.addEventListener('pointerleave', function (e) { if (e.pointerType === 'mouse') paused = false; });
+  mq.addEventListener('pointerdown', function (e) {
+    resumeAt = Infinity;
+    if (e.pointerType !== 'mouse') return;
+    dragging = true; dragX = e.clientX; dragLeft = mq.scrollLeft; mq.classList.add('grabbing');
+  });
+  addEventListener('pointermove', function (e) { if (dragging) mq.scrollLeft = dragLeft - (e.clientX - dragX); });
+  addEventListener('pointerup', function () { dragging = false; mq.classList.remove('grabbing'); resumeAt = performance.now() + 1500; });
+  addEventListener('pointercancel', function () { dragging = false; mq.classList.remove('grabbing'); resumeAt = performance.now() + 1500; });
+  mq.addEventListener('wheel', function () { resumeAt = performance.now() + 1500; }, { passive: true });
+  (function drift(t) {
+    if (!paused && !dragging && t > resumeAt) { pos += reduce ? .25 : .6; mq.scrollLeft = pos; wrap(); pos = mq.scrollLeft + (pos % 1); }
+    else pos = mq.scrollLeft;
+    requestAnimationFrame(drift);
+  })(performance.now());
 
   /* typing headline */
   var phrases = ['Shopify Plus Engineer', 'Core Web Vitals fixer', 'Custom theme & app builder', 'Shopify Functions developer'];
