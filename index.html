@@ -440,6 +440,24 @@
   .duo .final .cta { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
   .duo .final .btn { justify-content: center; padding: 12px 10px; font-size: .95rem; }
 
+
+  /* ---------- contact form ---------- */
+  .cform { display: grid; gap: 12px; margin: 0 0 22px; text-align: left; }
+  .cform label { display: grid; gap: 6px; font-size: .85rem; font-weight: 600; color: var(--muted); }
+  .cform input, .cform textarea {
+    width: 100%; font: inherit; font-weight: 400; color: var(--text); background: var(--card);
+    border: 1px solid var(--line); border-radius: 12px; padding: 11px 14px; transition: border-color .2s, box-shadow .2s;
+  }
+  .cform textarea { min-height: 110px; resize: vertical; }
+  .cform input:focus, .cform textarea:focus { outline: 0; border-color: var(--accent); box-shadow: 0 0 0 3px var(--glow); }
+  .cform .hp { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+  .cform .btn { justify-self: start; cursor: pointer; font: inherit; font-weight: 600; }
+  .cform .btn:disabled { opacity: .6; cursor: wait; }
+  .cform .status { margin: 0; min-height: 1.4em; font-size: .9rem; color: var(--muted); }
+  .cform .status.ok { color: var(--accent2); }
+  .cform .status.err { color: #f87171; }
+  @media (max-width: 520px) { .cform .btn { justify-self: stretch; } }
+
   /* ---------- footer cta ---------- */
   .final { text-align: center; padding: 72px 0 56px; }
   .final h2 { font-size: clamp(1.8rem, 5vw, 2.8rem); letter-spacing: -.03em; margin: 0 0 10px; }
@@ -673,6 +691,14 @@
   <section class="final">
     <h2 class="reveal">Let's make your store <span class="grad">faster</span>.</h2>
     <p class="reveal">Tell me about your project and I'll get back to you.</p>
+    <form class="cform reveal" id="cform" action="https://formspree.io/f/xoejqzrp" method="POST">
+      <label>Name <input type="text" name="name" autocomplete="name" required maxlength="100"></label>
+      <label>Email <input type="email" name="email" autocomplete="email" required maxlength="150"></label>
+      <label>Message <textarea name="message" required maxlength="4000"></textarea></label>
+      <div class="hp" aria-hidden="true"><label>Leave empty <input type="text" name="_gotcha" tabindex="-1" autocomplete="off"></label></div>
+      <button class="btn primary" type="submit"><span>Send message →</span></button>
+      <p class="status" id="cstatus" role="status" aria-live="polite"></p>
+    </form>
     <div class="cta reveal">
       <a class="btn primary" href="https://dash.shopexperts.com/get-free-quote?expert=deyan-chernogorski&amp;cta_source=expert_profile_hero" target="_blank" rel="noopener"><span>Hire me<span class="long"> on ShopExperts</span> →</span></a>
       <a class="btn" href="#" data-u="deyan4" data-d="gmail.com" data-mail>Email me</a>
@@ -805,6 +831,21 @@
     a.href = 'mailto:' + a.dataset.u + '@' + a.dataset.d + '?subject=' + encodeURIComponent('Shopify project');
     if (a.hasAttribute('data-show')) a.textContent = a.dataset.u + '@' + a.dataset.d;
   });
+
+  /* contact form (Formspree) */
+  (function () {
+    var f = document.getElementById('cform'), st = document.getElementById('cstatus');
+    if (!f) return;
+    f.addEventListener('submit', function (e) {
+      e.preventDefault();
+      var b = f.querySelector('button');
+      b.disabled = true; st.className = 'status'; st.textContent = 'Sending…';
+      fetch(f.action, { method: 'POST', body: new FormData(f), headers: { Accept: 'application/json' } })
+        .then(function (r) { if (!r.ok) throw 0; f.reset(); st.className = 'status ok'; st.textContent = 'Thanks! Your message was sent. I\'ll get back to you soon.'; })
+        .catch(function () { st.className = 'status err'; st.textContent = 'Something went wrong. Please try again or use the email button below.'; })
+        .then(function () { b.disabled = false; });
+    });
+  })();
 
   /* reviews carousel */
   (function () {
