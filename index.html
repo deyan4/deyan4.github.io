@@ -739,7 +739,10 @@
     }
     function init() { unit = track.scrollWidth / 3; mq.scrollLeft = unit; pos = mq.scrollLeft; }
     addEventListener('load', init); addEventListener('resize', init); init();
-    mq.addEventListener('scroll', wrap, { passive: true });
+    /* only wrap on scroll at the very ends; jumping mid-swipe kills touch momentum */
+    mq.addEventListener('scroll', function () {
+      if (mq.scrollLeft <= 1 || mq.scrollLeft >= track.scrollWidth - mq.clientWidth - 1) wrap();
+    }, { passive: true });
     mq.addEventListener('pointerenter', function (e) { if (e.pointerType === 'mouse') paused = true; });
     mq.addEventListener('pointerleave', function (e) { if (e.pointerType === 'mouse') paused = false; });
     mq.addEventListener('pointerdown', function (e) {
@@ -753,9 +756,15 @@
     mq.addEventListener('click', function (e) { if (moved > 5) { e.preventDefault(); moved = 0; } }, true);
     mq.addEventListener('dragstart', function (e) { e.preventDefault(); });
     mq.addEventListener('wheel', function () { resumeAt = performance.now() + 1500; }, { passive: true });
+    var last = -1;
     (function drift(t) {
-      if (!paused && !dragging && t > resumeAt) { pos += dir * (reduce ? .25 : .6); mq.scrollLeft = pos; wrap(); pos = mq.scrollLeft + (pos % 1); }
-      else pos = mq.scrollLeft;
+      /* scroll position moved by something other than us (swipe / momentum): back off and follow it */
+      if (last >= 0 && Math.abs(mq.scrollLeft - last) > 1.5) { resumeAt = t + 1500; pos = mq.scrollLeft; last = -1; }
+      if (!paused && !dragging && t > resumeAt) {
+        pos += dir * (reduce ? .25 : .6);
+        if (unit) { if (pos >= unit * 2) pos -= unit; else if (pos <= 0) pos += unit; }
+        mq.scrollLeft = pos; last = mq.scrollLeft;
+      } else { pos = mq.scrollLeft; last = -1; }
       requestAnimationFrame(drift);
     })(performance.now());
   }
