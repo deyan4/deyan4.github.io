@@ -12,7 +12,7 @@
 <script>
   try {
     var t = localStorage.getItem('theme');
-    if (!t) t = matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+    if (!t) t = 'dark';
     document.documentElement.dataset.theme = t;
   } catch (e) {}
 </script>
@@ -251,7 +251,7 @@
 
 <nav class="top">
   <div class="wrap">
-    <a class="logo" href="#top">deyan<i>.</i>dev</a>
+    <a class="logo" href="#top">deyan4<i>/</i>dev</a>
     <div class="links">
       <a href="https://shopexperts.com/freelancers/deyan-chernogorski#shopexperts-reviews" target="_blank" rel="noopener">Reviews</a>
       <a class="btn primary nav-cta" href="https://dash.shopexperts.com/get-free-quote?cta_source=header_get_matched" target="_blank" rel="noopener">Get Matched</a>
@@ -272,7 +272,7 @@
         not a one-off handoff.
       </p>
       <div class="cta">
-        <a class="btn primary" href="https://shopexperts.com/freelancers/deyan-chernogorski" target="_blank" rel="noopener">Hire me on ShopExperts →</a>
+        <a class="btn primary" href="https://dash.shopexperts.com/get-free-quote?expert=deyan-chernogorski&amp;cta_source=expert_profile_hero" target="_blank" rel="noopener">Hire me on ShopExperts →</a>
         <a class="btn" href="https://www.upwork.com/freelancers/~01c9ed52cc506edc33" target="_blank" rel="noopener">Upwork</a>
       </div>
     </div>
@@ -409,7 +409,7 @@
     <h2 class="reveal">Let's make your store <span class="grad">faster</span>.</h2>
     <p class="reveal">Tell me about your project and I'll get back to you.</p>
     <div class="cta reveal">
-      <a class="btn primary" href="https://shopexperts.com/freelancers/deyan-chernogorski" target="_blank" rel="noopener">Hire me on ShopExperts →</a>
+      <a class="btn primary" href="https://dash.shopexperts.com/get-free-quote?expert=deyan-chernogorski&amp;cta_source=expert_profile_hero" target="_blank" rel="noopener">Hire me on ShopExperts →</a>
       <a class="btn" href="https://www.upwork.com/freelancers/~01c9ed52cc506edc33" target="_blank" rel="noopener">Upwork</a>
       <a class="btn" href="https://www.linkedin.com/in/deyan4/" target="_blank" rel="noopener">LinkedIn</a>
       <a class="btn" href="https://github.com/deyan4" target="_blank" rel="noopener">GitHub</a>
@@ -540,7 +540,7 @@
 
   /* animated particle network background */
   var cv = document.getElementById('bg'), ctx = cv.getContext('2d'), pts = [], stars = [], shooters = [], W, H, dpr = Math.min(devicePixelRatio || 1, 2);
-  var mouse = { x: -999, y: -999 };
+  var mouse = { x: -999, y: -999 }, lastY = 0, boost = 0;
   function size() {
     W = innerWidth; H = innerHeight;
     cv.width = W * dpr; cv.height = H * dpr;
@@ -549,11 +549,11 @@
     pts = [];
     for (var i = 0; i < n; i++) pts.push({ x: Math.random() * W, y: Math.random() * H, vx: (Math.random() - .5) * .35, vy: (Math.random() - .5) * .35 });
     stars = [];
-    var sn = Math.min(Math.floor(W * H / 4500), 320);
-    for (var k = 0; k < sn; k++) {
-      var z = Math.random();               /* depth: 0 far .. 1 near */
-      stars.push({ x: Math.random() * W, y: Math.random() * H, z: z, r: .4 + z * 1.5, tw: Math.random() * 6.283, sp: .6 + Math.random() * 1.6, hue: Math.random() < .2 ? '186,230,253' : (Math.random() < .2 ? '253,230,200' : '255,255,255') });
-    }
+    var sn = Math.min(Math.floor(W * H / 2600), 520);
+    for (var k = 0; k < sn; k++) stars.push(newStar(true));
+  }
+  function newStar(anywhere) {
+    return { x: Math.random() * 2 - 1, y: Math.random() * 2 - 1, z: anywhere ? Math.random() : 1, pz: 1, hue: Math.random() < .25 ? '186,230,253' : (Math.random() < .2 ? '253,225,190' : '255,255,255') };
   }
   addEventListener('resize', size); size();
   addEventListener('pointermove', function (e) { mouse.x = e.clientX; mouse.y = e.clientY; }, { passive: true });
@@ -563,31 +563,40 @@
     var col = light ? '18,161,80' : '46,224,122';
     var now = performance.now() / 1000;
 
-    /* nebula glow */
-    var g1 = ctx.createRadialGradient(W * .8, H * .15, 0, W * .8, H * .15, W * .5);
-    g1.addColorStop(0, light ? 'rgba(56,189,248,.10)' : 'rgba(99,102,241,.18)'); g1.addColorStop(1, 'rgba(0,0,0,0)');
-    ctx.fillStyle = g1; ctx.fillRect(0, 0, W, H);
-    var g2 = ctx.createRadialGradient(W * .1, H * .85, 0, W * .1, H * .85, W * .45);
-    g2.addColorStop(0, light ? 'rgba(18,161,80,.08)' : 'rgba(46,224,122,.10)'); g2.addColorStop(1, 'rgba(0,0,0,0)');
-    ctx.fillStyle = g2; ctx.fillRect(0, 0, W, H);
-
-    /* twinkling parallax stars */
-    var px = mouse.x < 0 ? 0 : (mouse.x / W - .5), py = mouse.y < 0 ? 0 : (mouse.y / H - .5);
-    for (var s = 0; s < stars.length; s++) {
-      var st = stars[s];
-      if (!reduce) { st.y -= .04 + st.z * .12; if (st.y < -2) { st.y = H + 2; st.x = Math.random() * W; } }
-      var sx = st.x - px * st.z * 40, sy = st.y - py * st.z * 40;
-      var tw = reduce ? .8 : .55 + .45 * Math.sin(now * st.sp + st.tw);
-      ctx.fillStyle = light ? 'rgba(15,23,42,' + (.25 * tw * (.4 + st.z)) + ')' : 'rgba(' + st.hue + ',' + (tw * (.35 + st.z * .65)) + ')';
-      ctx.beginPath(); ctx.arc(sx, sy, st.r, 0, 6.283); ctx.fill();
-      if (st.z > .93 && !light) {
-        ctx.strokeStyle = 'rgba(' + st.hue + ',' + (tw * .35) + ')';
-        ctx.beginPath(); ctx.moveTo(sx - 5, sy); ctx.lineTo(sx + 5, sy); ctx.moveTo(sx, sy - 5); ctx.lineTo(sx, sy + 5); ctx.stroke();
-      }
+    /* drifting aurora */
+    var t = now * (reduce ? .1 : .25);
+    var blobs = [
+      [.75 + Math.sin(t) * .12, .2 + Math.cos(t * .8) * .1, light ? 'rgba(56,189,248,.12)' : 'rgba(99,102,241,.22)'],
+      [.15 + Math.cos(t * .7) * .12, .8 + Math.sin(t) * .1, light ? 'rgba(18,161,80,.10)' : 'rgba(46,224,122,.14)'],
+      [.5 + Math.sin(t * .6 + 2) * .2, .5 + Math.cos(t * .9) * .15, light ? 'rgba(168,85,247,.07)' : 'rgba(168,85,247,.12)']
+    ];
+    for (var bi = 0; bi < blobs.length; bi++) {
+      var bl = blobs[bi], rg = ctx.createRadialGradient(W * bl[0], H * bl[1], 0, W * bl[0], H * bl[1], Math.max(W, H) * .5);
+      rg.addColorStop(0, bl[2]); rg.addColorStop(1, 'rgba(0,0,0,0)');
+      ctx.fillStyle = rg; ctx.fillRect(0, 0, W, H);
     }
 
+    /* warp-speed starfield: speeds up with scroll, steers toward the cursor */
+    var sv = Math.min(Math.abs(scrollY - lastY), 80); lastY = scrollY;
+    boost += (sv / 80 - boost) * .08;
+    var speed = reduce ? .0014 : .0035 + boost * .03;
+    var cx = W / 2 + (mouse.x < 0 ? 0 : (mouse.x / W - .5) * W * .35), cy = H / 2 + (mouse.y < 0 ? 0 : (mouse.y / H - .5) * H * .35), f = Math.max(W, H) * .5;
+    for (var s = 0; s < stars.length; s++) {
+      var st = stars[s];
+      st.pz = st.z; st.z -= speed;
+      if (st.z <= .02) { stars[s] = st = newStar(false); }
+      var x1 = cx + st.x / st.z * f * .5, y1 = cy + st.y / st.z * f * .5;
+      var x0 = cx + st.x / st.pz * f * .5, y0 = cy + st.y / st.pz * f * .5;
+      if (x1 < -50 || x1 > W + 50 || y1 < -50 || y1 > H + 50) { stars[s] = newStar(false); continue; }
+      var near = 1 - st.z, al = Math.min(1, near * 1.6 + .15);
+      ctx.strokeStyle = light ? 'rgba(15,23,42,' + (al * .5) + ')' : 'rgba(' + st.hue + ',' + al + ')';
+      ctx.lineWidth = .5 + near * 2;
+      ctx.beginPath(); ctx.moveTo(x0, y0); ctx.lineTo(x1 + (x1 - x0) * .2, y1 + (y1 - y0) * .2); ctx.stroke();
+    }
+    ctx.lineWidth = 1;
+
     /* shooting stars */
-    if (!reduce && Math.random() < .004 && shooters.length < 2) {
+    if (!reduce && Math.random() < .012 && shooters.length < 2) {
       shooters.push({ x: Math.random() * W * .8 + W * .2, y: Math.random() * H * .4, vx: -(6 + Math.random() * 5), vy: 3 + Math.random() * 3, life: 1 });
     }
     for (var q = shooters.length - 1; q >= 0; q--) {
@@ -602,11 +611,9 @@
     }
     for (var i = 0; i < pts.length; i++) {
       var a = pts[i];
-      if (!reduce) {
-        a.x += a.vx; a.y += a.vy;
-        if (a.x < 0 || a.x > W) a.vx *= -1;
-        if (a.y < 0 || a.y > H) a.vy *= -1;
-      }
+      a.x += a.vx * (reduce ? .4 : 1); a.y += a.vy * (reduce ? .4 : 1);
+      if (a.x < 0 || a.x > W) a.vx *= -1;
+      if (a.y < 0 || a.y > H) a.vy *= -1;
       ctx.fillStyle = 'rgba(' + col + ',.55)';
       ctx.beginPath(); ctx.arc(a.x, a.y, 1.6, 0, 6.283); ctx.fill();
       for (var j = i + 1; j < pts.length; j++) {
@@ -622,7 +629,7 @@
         ctx.beginPath(); ctx.moveTo(a.x, a.y); ctx.lineTo(mouse.x, mouse.y); ctx.stroke();
       }
     }
-    if (!reduce) requestAnimationFrame(draw);
+    requestAnimationFrame(draw);
   }
   draw();
 })();
