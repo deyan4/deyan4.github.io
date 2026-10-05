@@ -859,6 +859,7 @@
     var wrap = box.querySelector('.rvwrap');
     function fit() { wrap.style.height = matchMedia('(max-width: 820px)').matches ? slides[i].offsetHeight + 'px' : ''; }
     addEventListener('resize', fit); addEventListener('load', fit);
+    if (window.ResizeObserver) { var ro = new ResizeObserver(fit); slides.forEach(function (sl) { ro.observe(sl); }); }
     function go(n) {
       i = (n + slides.length) % slides.length;
       document.getElementById('rvtrack').style.transform = 'translateX(' + (-i * 100) + '%)';
