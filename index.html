@@ -67,7 +67,7 @@
   }
 
   /* ---------- layout ---------- */
-  .wrap { max-width: 980px; margin: 0 auto; padding: 0 20px; }
+  .wrap { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
   nav.top {
     position: sticky; top: 0; z-index: 40;
     backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
@@ -80,6 +80,8 @@
   nav.top .links { margin-left: auto; display: flex; gap: 20px; font-size: .92rem; color: var(--muted); }
   nav.top .links a { text-decoration: none; transition: color .15s; }
   nav.top .links a:hover { color: var(--text); }
+  nav.top .links { align-items: center; }
+  .nav-cta { padding: 8px 16px; font-size: .9rem; color: var(--accent-ink) !important; }
   .toggle {
     border: 1px solid var(--line); background: var(--card); color: var(--text);
     width: 38px; height: 38px; border-radius: 50%; cursor: pointer; font-size: 1rem;
@@ -158,7 +160,7 @@
   .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
   .svc {
     position: relative; border: 1px solid var(--line); background: var(--card);
-    border-radius: 18px; padding: 24px; overflow: hidden;
+    border-radius: 18px; overflow: hidden;
     transition: transform .2s, border-color .2s;
   }
   .svc::before {
@@ -167,6 +169,17 @@
   }
   .svc:hover { transform: translateY(-4px); border-color: var(--accent); }
   .svc:hover::before { opacity: 1; }
+  .grid { align-items: start; }
+  .svc-btn { display: block; width: 100%; padding: 24px; background: none; border: 0; color: inherit; font: inherit; text-align: left; cursor: pointer; position: relative; }
+  .svc-btn:focus-visible { outline: 3px solid var(--accent); outline-offset: -3px; border-radius: 18px; }
+  .more-tag { display: inline-flex; gap: 6px; margin-top: 14px; font-size: .85rem; font-weight: 600; color: var(--accent); }
+  .more-tag i { font-style: normal; display: inline-block; transition: transform .25s; }
+  .svc.open .more-tag i { transform: rotate(45deg); }
+  .svc.open { border-color: var(--accent); }
+  .more { padding: 0 24px 24px; position: relative; }
+  .more p { color: var(--text); margin: 0 0 12px; }
+  .more a { color: var(--accent); font-weight: 600; font-size: .9rem; text-decoration: none; }
+  .more a:hover { text-decoration: underline; }
   .svc .ic { font-size: 1.6rem; margin-bottom: 10px; }
   .svc h3 { margin: 0 0 6px; font-size: 1.05rem; }
   .svc p { margin: 0; color: var(--muted); font-size: .92rem; }
@@ -221,8 +234,7 @@
     .grid { grid-template-columns: 1fr 1fr; }
     .speed { grid-template-columns: 1fr; justify-items: center; }
     .vitals { width: 100%; }
-    nav.top .links { display: none; }
-    nav.top .toggle { margin-left: auto; }
+    nav.top .links a:not(.nav-cta) { display: none; }
   }
   @media (max-width: 520px) { .grid { grid-template-columns: 1fr; } .btn { flex: 1 1 100%; justify-content: center; } }
   @media (prefers-reduced-motion: reduce) {
@@ -241,10 +253,8 @@
   <div class="wrap">
     <a class="logo" href="#top">deyan<i>.</i>dev</a>
     <div class="links">
-      <a href="#services">Services</a>
-      <a href="#speed">Performance</a>
-      <a href="#stack">Stack</a>
-      <a href="#reviews">Reviews</a>
+      <a href="https://shopexperts.com/freelancers/deyan-chernogorski#shopexperts-reviews" target="_blank" rel="noopener">Reviews</a>
+      <a class="btn primary nav-cta" href="https://dash.shopexperts.com/get-free-quote?cta_source=header_get_matched" target="_blank" rel="noopener">Get Matched</a>
     </div>
     <button class="toggle" id="theme" aria-label="Toggle light and dark theme">◐</button>
   </div>
@@ -262,8 +272,8 @@
         not a one-off handoff.
       </p>
       <div class="cta">
-        <a class="btn primary" href="https://www.upwork.com/freelancers/~01c9ed52cc506edc33" target="_blank" rel="noopener">Hire me on Upwork →</a>
-        <a class="btn" href="https://shopexperts.com/freelancers/deyan-chernogorski" target="_blank" rel="noopener">Shop Experts profile</a>
+        <a class="btn primary" href="https://shopexperts.com/freelancers/deyan-chernogorski" target="_blank" rel="noopener">Hire me on ShopExperts →</a>
+        <a class="btn" href="https://www.upwork.com/freelancers/~01c9ed52cc506edc33" target="_blank" rel="noopener">Upwork</a>
       </div>
     </div>
 
@@ -273,6 +283,7 @@
         <h3>Deyan Chernogorski</h3>
         <p>Shopify Plus Engineer</p>
         <div class="id-meta">
+          <div><span>Handle</span> @deyan4</div>
           <div><span>Location</span> Ruse, Bulgaria</div>
           <div><span>Languages</span> EN · ES · BG</div>
           <div><span>Starting at</span> $65 / hour</div>
@@ -294,12 +305,66 @@
     <h2 class="title reveal">What I can do for your store</h2>
     <p class="sub reveal">From a quick fix to a full custom build, with ongoing support after launch.</p>
     <div class="grid">
-      <article class="svc reveal"><div class="ic">🎨</div><h3>Theme customization</h3><p>Updates, new sections and layouts tailored to your brand.</p></article>
-      <article class="svc reveal" style="--d:.06s"><div class="ic">⚡</div><h3>Speed optimization</h3><p>Core Web Vitals work that makes stores load fast and convert better.</p></article>
-      <article class="svc reveal" style="--d:.12s"><div class="ic">🧩</div><h3>Custom apps</h3><p>Purpose-built Shopify apps when off-the-shelf ones don't fit.</p></article>
-      <article class="svc reveal"><div class="ic">🛠️</div><h3>Shopify Functions</h3><p>Custom discounts, shipping and checkout logic on Shopify's APIs.</p></article>
-      <article class="svc reveal" style="--d:.06s"><div class="ic">🔌</div><h3>Integrations</h3><p>Connecting your store with the third-party tools you rely on.</p></article>
-      <article class="svc reveal" style="--d:.12s"><div class="ic">🔍</div><h3>Audits &amp; debugging</h3><p>Code reviews that find what's slowing or breaking your store.</p></article>
+      <article class="svc reveal">
+        <button class="svc-btn" type="button" aria-expanded="false">
+          <div class="ic">🎨</div><h3>Theme customization</h3><p>Updates, new sections and layouts tailored to your brand.</p>
+          <span class="more-tag">Learn more <i aria-hidden="true">+</i></span>
+        </button>
+        <div class="more" hidden>
+          <p>Your theme, adjusted to fit your brand and your products: new sections, layout changes, design updates and theme upgrades without breaking what already works.</p>
+          <a href="https://shopexperts.com/freelancers/deyan-chernogorski" target="_blank" rel="noopener">Ask about this on ShopExperts →</a>
+        </div>
+      </article>
+      <article class="svc reveal" style="--d:.06s">
+        <button class="svc-btn" type="button" aria-expanded="false">
+          <div class="ic">⚡</div><h3>Speed optimization</h3><p>Core Web Vitals work that makes stores load fast and convert better.</p>
+          <span class="more-tag">Learn more <i aria-hidden="true">+</i></span>
+        </button>
+        <div class="more" hidden>
+          <p>I find what slows your store down (heavy apps, images, scripts, theme code) and fix it, aiming for good LCP, INP and CLS scores.</p>
+          <a href="https://shopexperts.com/freelancers/deyan-chernogorski" target="_blank" rel="noopener">Ask about this on ShopExperts →</a>
+        </div>
+      </article>
+      <article class="svc reveal" style="--d:.12s">
+        <button class="svc-btn" type="button" aria-expanded="false">
+          <div class="ic">🧩</div><h3>Custom apps</h3><p>Purpose-built Shopify apps when off-the-shelf ones don't fit.</p>
+          <span class="more-tag">Learn more <i aria-hidden="true">+</i></span>
+        </button>
+        <div class="more" hidden>
+          <p>When no app does exactly what you need, I build one for your workflow: no monthly fee per feature, and no unused extras slowing the store.</p>
+          <a href="https://shopexperts.com/freelancers/deyan-chernogorski" target="_blank" rel="noopener">Ask about this on ShopExperts →</a>
+        </div>
+      </article>
+      <article class="svc reveal">
+        <button class="svc-btn" type="button" aria-expanded="false">
+          <div class="ic">🛠️</div><h3>Shopify Functions</h3><p>Custom discounts, shipping and checkout logic on Shopify's APIs.</p>
+          <span class="more-tag">Learn more <i aria-hidden="true">+</i></span>
+        </button>
+        <div class="more" hidden>
+          <p>Custom discount, shipping, payment and cart rules that run on Shopify's own infrastructure, so they stay fast and reliable at checkout.</p>
+          <a href="https://shopexperts.com/freelancers/deyan-chernogorski" target="_blank" rel="noopener">Ask about this on ShopExperts →</a>
+        </div>
+      </article>
+      <article class="svc reveal" style="--d:.06s">
+        <button class="svc-btn" type="button" aria-expanded="false">
+          <div class="ic">🔌</div><h3>Integrations</h3><p>Connecting your store with the third-party tools you rely on.</p>
+          <span class="more-tag">Learn more <i aria-hidden="true">+</i></span>
+        </button>
+        <div class="more" hidden>
+          <p>Connecting your store to email, loyalty, subscriptions, reviews and other tools such as Klaviyo, Recharge and Smile, set up properly and tested.</p>
+          <a href="https://shopexperts.com/freelancers/deyan-chernogorski" target="_blank" rel="noopener">Ask about this on ShopExperts →</a>
+        </div>
+      </article>
+      <article class="svc reveal" style="--d:.12s">
+        <button class="svc-btn" type="button" aria-expanded="false">
+          <div class="ic">🔍</div><h3>Audits &amp; debugging</h3><p>Code reviews that find what's slowing or breaking your store.</p>
+          <span class="more-tag">Learn more <i aria-hidden="true">+</i></span>
+        </button>
+        <div class="more" hidden>
+          <p>A review of your theme and apps to track down bugs, conflicts and slowdowns, with a clear list of what to fix and, if you want, I fix it.</p>
+          <a href="https://shopexperts.com/freelancers/deyan-chernogorski" target="_blank" rel="noopener">Ask about this on ShopExperts →</a>
+        </div>
+      </article>
     </div>
   </section>
 
@@ -335,7 +400,7 @@
     <div class="quote reveal">
       <div class="stars" aria-label="5 stars">★★★★★</div>
       <blockquote>“I'd give him not only 5 stars… I'd give him 7 stars.”</blockquote>
-      <cite>Client review on Shop Experts · 4.94 / 5 across 70 reviews</cite>
+      <cite>Client review on ShopExperts · 4.94 / 5 across 70 reviews</cite>
       <div class="themes"><span>Fast delivery</span><span>Clear communication</span><span>High-quality work</span><span>Ongoing support</span></div>
     </div>
   </section>
@@ -344,7 +409,8 @@
     <h2 class="reveal">Let's make your store <span class="grad">faster</span>.</h2>
     <p class="reveal">Tell me about your project and I'll get back to you.</p>
     <div class="cta reveal">
-      <a class="btn primary" href="https://www.upwork.com/freelancers/~01c9ed52cc506edc33" target="_blank" rel="noopener">Hire me on Upwork →</a>
+      <a class="btn primary" href="https://shopexperts.com/freelancers/deyan-chernogorski" target="_blank" rel="noopener">Hire me on ShopExperts →</a>
+      <a class="btn" href="https://www.upwork.com/freelancers/~01c9ed52cc506edc33" target="_blank" rel="noopener">Upwork</a>
       <a class="btn" href="https://www.linkedin.com/in/deyan4/" target="_blank" rel="noopener">LinkedIn</a>
       <a class="btn" href="https://github.com/deyan4" target="_blank" rel="noopener">GitHub</a>
     </div>
@@ -408,6 +474,16 @@
     });
   });
 
+  /* expandable service cards */
+  document.querySelectorAll('.svc-btn').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var card = btn.parentNode, more = card.querySelector('.more'), open = btn.getAttribute('aria-expanded') === 'true';
+      btn.setAttribute('aria-expanded', String(!open));
+      more.hidden = open;
+      card.classList.toggle('open', !open);
+    });
+  });
+
   /* 3D tilt on the ID card */
   var tilt = document.getElementById('tilt');
   if (!reduce && matchMedia('(hover: hover)').matches) {
@@ -463,7 +539,7 @@
   document.querySelectorAll('.reveal').forEach(function (n) { io.observe(n); });
 
   /* animated particle network background */
-  var cv = document.getElementById('bg'), ctx = cv.getContext('2d'), pts = [], W, H, dpr = Math.min(devicePixelRatio || 1, 2);
+  var cv = document.getElementById('bg'), ctx = cv.getContext('2d'), pts = [], stars = [], shooters = [], W, H, dpr = Math.min(devicePixelRatio || 1, 2);
   var mouse = { x: -999, y: -999 };
   function size() {
     W = innerWidth; H = innerHeight;
@@ -472,6 +548,12 @@
     var n = Math.min(Math.floor(W * H / 16000), 90);
     pts = [];
     for (var i = 0; i < n; i++) pts.push({ x: Math.random() * W, y: Math.random() * H, vx: (Math.random() - .5) * .35, vy: (Math.random() - .5) * .35 });
+    stars = [];
+    var sn = Math.min(Math.floor(W * H / 4500), 320);
+    for (var k = 0; k < sn; k++) {
+      var z = Math.random();               /* depth: 0 far .. 1 near */
+      stars.push({ x: Math.random() * W, y: Math.random() * H, z: z, r: .4 + z * 1.5, tw: Math.random() * 6.283, sp: .6 + Math.random() * 1.6, hue: Math.random() < .2 ? '186,230,253' : (Math.random() < .2 ? '253,230,200' : '255,255,255') });
+    }
   }
   addEventListener('resize', size); size();
   addEventListener('pointermove', function (e) { mouse.x = e.clientX; mouse.y = e.clientY; }, { passive: true });
@@ -479,6 +561,45 @@
     ctx.clearRect(0, 0, W, H);
     var light = root.dataset.theme === 'light';
     var col = light ? '18,161,80' : '46,224,122';
+    var now = performance.now() / 1000;
+
+    /* nebula glow */
+    var g1 = ctx.createRadialGradient(W * .8, H * .15, 0, W * .8, H * .15, W * .5);
+    g1.addColorStop(0, light ? 'rgba(56,189,248,.10)' : 'rgba(99,102,241,.18)'); g1.addColorStop(1, 'rgba(0,0,0,0)');
+    ctx.fillStyle = g1; ctx.fillRect(0, 0, W, H);
+    var g2 = ctx.createRadialGradient(W * .1, H * .85, 0, W * .1, H * .85, W * .45);
+    g2.addColorStop(0, light ? 'rgba(18,161,80,.08)' : 'rgba(46,224,122,.10)'); g2.addColorStop(1, 'rgba(0,0,0,0)');
+    ctx.fillStyle = g2; ctx.fillRect(0, 0, W, H);
+
+    /* twinkling parallax stars */
+    var px = mouse.x < 0 ? 0 : (mouse.x / W - .5), py = mouse.y < 0 ? 0 : (mouse.y / H - .5);
+    for (var s = 0; s < stars.length; s++) {
+      var st = stars[s];
+      if (!reduce) { st.y -= .04 + st.z * .12; if (st.y < -2) { st.y = H + 2; st.x = Math.random() * W; } }
+      var sx = st.x - px * st.z * 40, sy = st.y - py * st.z * 40;
+      var tw = reduce ? .8 : .55 + .45 * Math.sin(now * st.sp + st.tw);
+      ctx.fillStyle = light ? 'rgba(15,23,42,' + (.25 * tw * (.4 + st.z)) + ')' : 'rgba(' + st.hue + ',' + (tw * (.35 + st.z * .65)) + ')';
+      ctx.beginPath(); ctx.arc(sx, sy, st.r, 0, 6.283); ctx.fill();
+      if (st.z > .93 && !light) {
+        ctx.strokeStyle = 'rgba(' + st.hue + ',' + (tw * .35) + ')';
+        ctx.beginPath(); ctx.moveTo(sx - 5, sy); ctx.lineTo(sx + 5, sy); ctx.moveTo(sx, sy - 5); ctx.lineTo(sx, sy + 5); ctx.stroke();
+      }
+    }
+
+    /* shooting stars */
+    if (!reduce && Math.random() < .004 && shooters.length < 2) {
+      shooters.push({ x: Math.random() * W * .8 + W * .2, y: Math.random() * H * .4, vx: -(6 + Math.random() * 5), vy: 3 + Math.random() * 3, life: 1 });
+    }
+    for (var q = shooters.length - 1; q >= 0; q--) {
+      var sh = shooters[q];
+      sh.x += sh.vx; sh.y += sh.vy; sh.life -= .014;
+      if (sh.life <= 0) { shooters.splice(q, 1); continue; }
+      var gr = ctx.createLinearGradient(sh.x, sh.y, sh.x - sh.vx * 9, sh.y - sh.vy * 9);
+      gr.addColorStop(0, light ? 'rgba(15,23,42,' + sh.life * .5 + ')' : 'rgba(255,255,255,' + sh.life + ')'); gr.addColorStop(1, 'rgba(255,255,255,0)');
+      ctx.strokeStyle = gr; ctx.lineWidth = 1.6;
+      ctx.beginPath(); ctx.moveTo(sh.x, sh.y); ctx.lineTo(sh.x - sh.vx * 9, sh.y - sh.vy * 9); ctx.stroke();
+      ctx.lineWidth = 1;
+    }
     for (var i = 0; i < pts.length; i++) {
       var a = pts[i];
       if (!reduce) {
