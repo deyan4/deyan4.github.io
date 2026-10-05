@@ -240,16 +240,17 @@
 
   /* ---------- brands ---------- */
   .brands { display: grid; grid-template-columns: repeat(5, 1fr); gap: 14px; }
-  .brand { display: grid; place-items: center; height: 104px; padding: 18px; border-radius: 16px; background: #fff; border: 1px solid var(--line); text-decoration: none; transition: box-shadow .25s, border-color .25s; }
+  .brand { display: grid; place-items: center; height: 76px; padding: 14px 18px; border-radius: 14px; background: #fff; border: 1px solid var(--line); text-decoration: none; transition: box-shadow .25s, border-color .25s; }
   .brand.dk { background: #0f1620; }
-  .brand img { max-width: 100%; max-height: 52px; width: auto; height: auto; object-fit: contain; }
+  .brand img { max-width: 72%; max-height: 32px; width: auto; height: auto; object-fit: contain; }
   .brand:hover { border-color: var(--accent); box-shadow: 0 0 26px var(--glow); }
   .brand:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
 
   /* ---------- review carousel ---------- */
-  .rvwrap { display: grid; }
-  .rv { grid-area: 1 / 1; margin: 0; opacity: 0; visibility: hidden; transition: opacity .5s, visibility .5s; }
-  .rv.on { opacity: 1; visibility: visible; }
+  .rvwrap { overflow: hidden; }
+  .rvtrack { display: flex; transition: transform .7s cubic-bezier(.65, 0, .25, 1); will-change: transform; }
+  .rv { flex: 0 0 100%; min-width: 0; margin: 0; padding: 0 4px; display: flex; flex-direction: column; justify-content: center; opacity: .25; transform: scale(.97); transition: opacity .7s, transform .7s; }
+  .rv.on { opacity: 1; transform: none; }
   .rv blockquote { margin: 14px auto 14px; font-size: clamp(1rem, 2.2vw, 1.2rem); max-width: 64ch; letter-spacing: 0; line-height: 1.6; }
   .rv figcaption { color: var(--muted); font-size: .9rem; }
   .rv figcaption b { color: var(--text); }
@@ -298,7 +299,7 @@
     .vitals { width: 100%; }
     nav.top .links a:not(.nav-cta) { display: none; }
   }
-  @media (max-width: 520px) { .brands { grid-template-columns: repeat(2, 1fr); } .brand { height: 88px; padding: 14px; } .quote { padding: 26px 20px; } .btn { flex: 1 1 100%; justify-content: center; } .panel .btn { align-self: stretch; flex: none; } .btn .long { display: none; } }
+  @media (max-width: 520px) { .brands { grid-template-columns: repeat(2, 1fr); } .brand { height: 66px; padding: 10px 14px; } .brand img { max-height: 26px; } .quote { padding: 26px 20px; } .btn { flex: 1 1 100%; justify-content: center; } .panel .btn { align-self: stretch; flex: none; } .btn .long { display: none; } }
   @media (prefers-reduced-motion: reduce) {
     *, *::before, *::after { animation: none !important; transition: none !important; }
     .reveal { opacity: 1; transform: none; }
@@ -451,7 +452,7 @@
     <h2 class="title reveal">What clients say</h2>
     <p class="sub reveal">4.94 / 5 across 70 reviews on ShopExperts.</p>
     <div class="quote reveal" id="rvbox">
-      <div class="rvwrap">
+      <div class="rvwrap"><div class="rvtrack" id="rvtrack">
         <figure class="rv on" aria-hidden="false">
           <div class="stars" aria-label="5 stars">★★★★★</div>
           <blockquote>“I've had the pleasure of working with Deyan for the past two years, and I can confidently say he is one of the best Shopify developers we've worked with. Deyan built both of our Shopify stores and has been an incredible partner throughout the entire process. He is extremely knowledgeable, professional, responsive, and always available whenever we have questions or need support. No matter how complex the challenge, he always finds a solution that is tailored specifically to our business instead of offering a generic approach. What I appreciate most is his attention to detail and the confidence he gives us. Every project feels organized, every task is carefully thought through, and you always feel like everything is under control. He is proactive, patient, and genuinely cares about delivering the best possible outcome. If you're looking for someone who truly understands Shopify, is easy to work with, and consistently goes above and beyond, I couldn't recommend Deyan more highly. We look forward to continuing to work with him as our business grows.”</blockquote>
@@ -477,7 +478,7 @@
           <blockquote>“I've worked with Deyan from Shopexperts for over three years, since joining La Residence Interiors, and he has offered invaluable support with the functionality of our website. He has helped us deliver a wide range of website improvements, from custom-coded features to complex projects dealing with third-party app integrations. No matter the scope of the project, Deyan consistently delivers high-quality work, often ahead of schedule, and is always clear and straightforward in his communication. I wouldn't hesitate to recommend Deyan to anyone looking for a developer.”</blockquote>
           <figcaption><b>Cara R.</b> · La Residence Interiors · ShopExperts, Mar 3, 2026</figcaption>
         </figure>
-      </div>
+      </div></div>
       <div class="rvnav">
         <button class="arrow" type="button" id="rvprev" aria-label="Previous review">←</button>
         <div class="dots"><button class="dotb on" type="button" aria-label="Review 1"></button><button class="dotb" type="button" aria-label="Review 2"></button><button class="dotb" type="button" aria-label="Review 3"></button><button class="dotb" type="button" aria-label="Review 4"></button><button class="dotb" type="button" aria-label="Review 5"></button></div>
@@ -635,10 +636,11 @@
     var slides = [].slice.call(document.querySelectorAll('.rv')), dots = [].slice.call(document.querySelectorAll('.dotb')), box = document.getElementById('rvbox'), i = 0, timer = null, hover = false, stopped = reduce;
     function go(n) {
       i = (n + slides.length) % slides.length;
+      document.getElementById('rvtrack').style.transform = 'translateX(' + (-i * 100) + '%)';
       slides.forEach(function (s, k) { s.classList.toggle('on', k === i); s.setAttribute('aria-hidden', String(k !== i)); });
       dots.forEach(function (d, k) { d.classList.toggle('on', k === i); });
       clearTimeout(timer);
-      if (!stopped) timer = setTimeout(function () { hover ? go(i) : go(i + 1); }, 9000);
+      if (!stopped) timer = setTimeout(function () { hover ? go(i) : go(i + 1); }, 7000);
     }
     document.getElementById('rvprev').addEventListener('click', function () { stopped = true; go(i - 1); });
     document.getElementById('rvnext').addEventListener('click', function () { stopped = true; go(i + 1); });
