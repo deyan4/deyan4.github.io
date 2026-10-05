@@ -157,32 +157,41 @@
   .stat span { color: var(--muted); font-size: .85rem; }
 
   /* ---------- services ---------- */
-  .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
-  .svc {
-    position: relative; border: 1px solid var(--line); background: var(--card);
-    border-radius: 18px; overflow: hidden;
-    transition: transform .2s, border-color .2s;
+  .showcase { display: grid; grid-template-columns: 5fr 7fr; gap: 20px; align-items: stretch; }
+  .tabs { display: grid; gap: 10px; align-content: start; }
+  .tab {
+    position: relative; display: flex; align-items: center; gap: 14px; text-align: left; width: 100%;
+    padding: 16px 18px; border: 1px solid var(--line); border-radius: 16px; background: var(--card);
+    color: var(--text); font: inherit; cursor: pointer; overflow: hidden;
+    transition: transform .2s, border-color .2s, background .2s;
   }
-  .svc::before {
-    content: ""; position: absolute; inset: 0; opacity: 0; transition: opacity .25s; pointer-events: none;
-    background: radial-gradient(260px circle at var(--x, 50%) var(--y, 50%), var(--glow), transparent 70%);
+  .tab:hover { transform: translateX(4px); border-color: var(--accent); }
+  .tab:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
+  .tab.active { border-color: var(--accent); background: var(--card-hover); box-shadow: 0 0 0 1px var(--accent), 0 10px 30px var(--glow); transform: translateX(8px); }
+  .tic { flex: none; width: 46px; height: 46px; display: grid; place-items: center; font-size: 1.4rem; border-radius: 14px; background: var(--glow); }
+  .ttx b { display: block; font-size: 1rem; }
+  .ttx small { color: var(--muted); font-size: .82rem; }
+  .tbar { position: absolute; left: 0; bottom: 0; height: 3px; width: 100%; transform: scaleX(0); transform-origin: 0 50%; background: linear-gradient(90deg, var(--accent), var(--accent2)); }
+  .tab.active.auto .tbar { animation: fillbar 6s linear forwards; }
+  .tab.active:not(.auto) .tbar { transform: scaleX(1); }
+  @keyframes fillbar { to { transform: scaleX(1); } }
+  .panel {
+    position: relative; padding: 36px; border: 1px solid var(--line); border-radius: 24px; overflow: hidden;
+    background: linear-gradient(160deg, var(--card-hover), var(--card)); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+    display: flex; flex-direction: column; justify-content: center; min-height: 380px;
   }
-  .svc:hover { transform: translateY(-4px); border-color: var(--accent); }
-  .svc:hover::before { opacity: 1; }
-  .grid { align-items: start; }
-  .svc-btn { display: block; width: 100%; padding: 24px; background: none; border: 0; color: inherit; font: inherit; text-align: left; cursor: pointer; position: relative; }
-  .svc-btn:focus-visible { outline: 3px solid var(--accent); outline-offset: -3px; border-radius: 18px; }
-  .more-tag { display: inline-flex; gap: 6px; margin-top: 14px; font-size: .85rem; font-weight: 600; color: var(--accent); }
-  .more-tag i { font-style: normal; display: inline-block; transition: transform .25s; }
-  .svc.open .more-tag i { transform: rotate(45deg); }
-  .svc.open { border-color: var(--accent); }
-  .more { padding: 0 24px 24px; position: relative; }
-  .more p { color: var(--text); margin: 0 0 12px; }
-  .more a { color: var(--accent); font-weight: 600; font-size: .9rem; text-decoration: none; }
-  .more a:hover { text-decoration: underline; }
-  .svc .ic { font-size: 1.6rem; margin-bottom: 10px; }
-  .svc h3 { margin: 0 0 6px; font-size: 1.05rem; }
-  .svc p { margin: 0; color: var(--muted); font-size: .92rem; }
+  .panel::before { content: ""; position: absolute; right: -80px; top: -80px; width: 280px; height: 280px; border-radius: 50%; background: radial-gradient(circle, var(--glow), transparent 70%); pointer-events: none; }
+  .panel > * { position: relative; animation: pin .5s ease both; }
+  .panel > *:nth-child(2) { animation-delay: .05s; } .panel > *:nth-child(3) { animation-delay: .1s; }
+  .panel > *:nth-child(4) { animation-delay: .15s; } .panel > *:nth-child(5) { animation-delay: .2s; }
+  @keyframes pin { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
+  .pic { font-size: 3.2rem; line-height: 1; margin-bottom: 14px; width: 84px; height: 84px; display: grid; place-items: center; border-radius: 24px; background: var(--glow); border: 1px solid var(--line); }
+  .panel h3 { margin: 0 0 8px; font-size: 1.7rem; letter-spacing: -.02em; }
+  .panel p { margin: 0 0 18px; color: var(--muted); max-width: 50ch; font-size: 1.02rem; }
+  .panel ul { list-style: none; margin: 0 0 26px; padding: 0; display: grid; gap: 10px; }
+  .panel li { display: flex; align-items: center; gap: 10px; }
+  .panel li::before { content: "✓"; flex: none; width: 22px; height: 22px; display: grid; place-items: center; border-radius: 50%; background: var(--accent); color: var(--accent-ink); font-size: .75rem; font-weight: 800; }
+  .panel .btn { align-self: flex-start; }
 
   /* ---------- speed ---------- */
   .speed { display: grid; grid-template-columns: auto 1fr; gap: 36px; align-items: center;
@@ -231,12 +240,16 @@
     .hero { grid-template-columns: 1fr; }
     .tilt-wrap { max-width: 380px; }
     .stats { grid-template-columns: repeat(2, 1fr); }
-    .grid { grid-template-columns: 1fr 1fr; }
+    .showcase { grid-template-columns: 1fr; }
+    .tabs { grid-auto-flow: column; grid-auto-columns: 78%; overflow-x: auto; padding-bottom: 6px; scroll-snap-type: x mandatory; }
+    .tab { scroll-snap-align: start; }
+    .tab:hover, .tab.active { transform: none; }
+    .panel { min-height: 0; padding: 26px; }
     .speed { grid-template-columns: 1fr; justify-items: center; }
     .vitals { width: 100%; }
     nav.top .links a:not(.nav-cta) { display: none; }
   }
-  @media (max-width: 520px) { .grid { grid-template-columns: 1fr; } .btn { flex: 1 1 100%; justify-content: center; } }
+  @media (max-width: 520px) { .btn { flex: 1 1 100%; justify-content: center; } }
   @media (prefers-reduced-motion: reduce) {
     *, *::before, *::after { animation: none !important; transition: none !important; }
     .reveal { opacity: 1; transform: none; }
@@ -264,7 +277,7 @@
   <header class="hero">
     <div>
       <span class="pill"><span class="dot"></span> Available for new projects</span>
-      <h1>Hi, I'm <span class="grad">Deyan</span>.</h1>
+      <h1>Hi, I'm <span class="grad">deyan4</span>.</h1>
       <p class="typed" aria-live="off"><span id="typed"></span><span class="caret"></span></p>
       <p class="lead">
         Shopify performance &amp; front-end developer with over 10 years of experience building,
@@ -304,67 +317,34 @@
   <section id="services">
     <h2 class="title reveal">What I can do for your store</h2>
     <p class="sub reveal">From a quick fix to a full custom build, with ongoing support after launch.</p>
-    <div class="grid">
-      <article class="svc reveal">
-        <button class="svc-btn" type="button" aria-expanded="false">
-          <div class="ic">🎨</div><h3>Theme customization</h3><p>Updates, new sections and layouts tailored to your brand.</p>
-          <span class="more-tag">Learn more <i aria-hidden="true">+</i></span>
+    <div class="showcase reveal">
+      <div class="tabs" role="tablist" aria-label="Services">
+        <button class="tab active" role="tab" id="tab0" aria-selected="true" aria-controls="panel" data-i="0">
+          <span class="tic">🎨</span><span class="ttx"><b>Theme customization</b><small>Tailored to your brand</small></span><span class="tbar"></span>
         </button>
-        <div class="more" hidden>
-          <p>Your theme, adjusted to fit your brand and your products: new sections, layout changes, design updates and theme upgrades without breaking what already works.</p>
-          <a href="https://shopexperts.com/freelancers/deyan-chernogorski" target="_blank" rel="noopener">Ask about this on ShopExperts →</a>
-        </div>
-      </article>
-      <article class="svc reveal" style="--d:.06s">
-        <button class="svc-btn" type="button" aria-expanded="false">
-          <div class="ic">⚡</div><h3>Speed optimization</h3><p>Core Web Vitals work that makes stores load fast and convert better.</p>
-          <span class="more-tag">Learn more <i aria-hidden="true">+</i></span>
+        <button class="tab" role="tab" id="tab1" aria-selected="false" aria-controls="panel" data-i="1">
+          <span class="tic">⚡</span><span class="ttx"><b>Speed optimization</b><small>Faster loads, better Core Web Vitals</small></span><span class="tbar"></span>
         </button>
-        <div class="more" hidden>
-          <p>I find what slows your store down (heavy apps, images, scripts, theme code) and fix it, aiming for good LCP, INP and CLS scores.</p>
-          <a href="https://shopexperts.com/freelancers/deyan-chernogorski" target="_blank" rel="noopener">Ask about this on ShopExperts →</a>
-        </div>
-      </article>
-      <article class="svc reveal" style="--d:.12s">
-        <button class="svc-btn" type="button" aria-expanded="false">
-          <div class="ic">🧩</div><h3>Custom apps</h3><p>Purpose-built Shopify apps when off-the-shelf ones don't fit.</p>
-          <span class="more-tag">Learn more <i aria-hidden="true">+</i></span>
+        <button class="tab" role="tab" id="tab2" aria-selected="false" aria-controls="panel" data-i="2">
+          <span class="tic">🧩</span><span class="ttx"><b>Custom apps</b><small>When off-the-shelf doesn't fit</small></span><span class="tbar"></span>
         </button>
-        <div class="more" hidden>
-          <p>When no app does exactly what you need, I build one for your workflow: no monthly fee per feature, and no unused extras slowing the store.</p>
-          <a href="https://shopexperts.com/freelancers/deyan-chernogorski" target="_blank" rel="noopener">Ask about this on ShopExperts →</a>
-        </div>
-      </article>
-      <article class="svc reveal">
-        <button class="svc-btn" type="button" aria-expanded="false">
-          <div class="ic">🛠️</div><h3>Shopify Functions</h3><p>Custom discounts, shipping and checkout logic on Shopify's APIs.</p>
-          <span class="more-tag">Learn more <i aria-hidden="true">+</i></span>
+        <button class="tab" role="tab" id="tab3" aria-selected="false" aria-controls="panel" data-i="3">
+          <span class="tic">🛠️</span><span class="ttx"><b>Shopify Functions</b><small>Custom checkout logic</small></span><span class="tbar"></span>
         </button>
-        <div class="more" hidden>
-          <p>Custom discount, shipping, payment and cart rules that run on Shopify's own infrastructure, so they stay fast and reliable at checkout.</p>
-          <a href="https://shopexperts.com/freelancers/deyan-chernogorski" target="_blank" rel="noopener">Ask about this on ShopExperts →</a>
-        </div>
-      </article>
-      <article class="svc reveal" style="--d:.06s">
-        <button class="svc-btn" type="button" aria-expanded="false">
-          <div class="ic">🔌</div><h3>Integrations</h3><p>Connecting your store with the third-party tools you rely on.</p>
-          <span class="more-tag">Learn more <i aria-hidden="true">+</i></span>
+        <button class="tab" role="tab" id="tab4" aria-selected="false" aria-controls="panel" data-i="4">
+          <span class="tic">🔌</span><span class="ttx"><b>Integrations</b><small>Your tools, connected</small></span><span class="tbar"></span>
         </button>
-        <div class="more" hidden>
-          <p>Connecting your store to email, loyalty, subscriptions, reviews and other tools such as Klaviyo, Recharge and Smile, set up properly and tested.</p>
-          <a href="https://shopexperts.com/freelancers/deyan-chernogorski" target="_blank" rel="noopener">Ask about this on ShopExperts →</a>
-        </div>
-      </article>
-      <article class="svc reveal" style="--d:.12s">
-        <button class="svc-btn" type="button" aria-expanded="false">
-          <div class="ic">🔍</div><h3>Audits &amp; debugging</h3><p>Code reviews that find what's slowing or breaking your store.</p>
-          <span class="more-tag">Learn more <i aria-hidden="true">+</i></span>
+        <button class="tab" role="tab" id="tab5" aria-selected="false" aria-controls="panel" data-i="5">
+          <span class="tic">🔍</span><span class="ttx"><b>Audits &amp; debugging</b><small>Find what's slowing or breaking</small></span><span class="tbar"></span>
         </button>
-        <div class="more" hidden>
-          <p>A review of your theme and apps to track down bugs, conflicts and slowdowns, with a clear list of what to fix and, if you want, I fix it.</p>
-          <a href="https://shopexperts.com/freelancers/deyan-chernogorski" target="_blank" rel="noopener">Ask about this on ShopExperts →</a>
-        </div>
-      </article>
+      </div>
+      <div class="panel" id="panel" role="tabpanel" aria-live="polite">
+        <div class="pic" id="pic"></div>
+        <h3 id="ptitle"></h3>
+        <p id="pdesc"></p>
+        <ul id="plist"></ul>
+        <a class="btn primary" href="https://dash.shopexperts.com/get-free-quote?expert=deyan-chernogorski&amp;cta_source=expert_profile_hero" target="_blank" rel="noopener">Get a quote on ShopExperts →</a>
+      </div>
     </div>
   </section>
 
@@ -465,24 +445,33 @@
     root.style.setProperty('--my', e.clientY + 'px');
   }, { passive: true });
 
-  /* service card hover glow */
-  document.querySelectorAll('.svc').forEach(function (card) {
-    card.addEventListener('pointermove', function (e) {
-      var r = card.getBoundingClientRect();
-      card.style.setProperty('--x', (e.clientX - r.left) + 'px');
-      card.style.setProperty('--y', (e.clientY - r.top) + 'px');
+  /* services showcase */
+  var SV = [{"ic": "🎨", "t": "Theme customization", "d": "Your theme, adjusted to fit your brand and products, without breaking what already works.", "b": ["New sections and page layouts", "Design updates that match your brand", "Safe theme upgrades"]}, {"ic": "⚡", "t": "Speed optimization", "d": "I find what slows your store down and fix it, aiming for good LCP, INP and CLS scores.", "b": ["Spot heavy apps, scripts and images", "Fix Core Web Vitals issues", "Measure, fix, re-test"]}, {"ic": "🧩", "t": "Custom apps", "d": "A purpose-built Shopify app for your exact workflow, with no unused extras slowing the store.", "b": ["Built around how you work", "Only the features you need", "Supported after launch"]}, {"ic": "🛠️", "t": "Shopify Functions", "d": "Custom discount, shipping, payment and cart rules that run on Shopify's own infrastructure.", "b": ["Custom discounts and bundles", "Shipping and payment rules", "Fast and reliable at checkout"]}, {"ic": "🔌", "t": "Integrations", "d": "Connect your store to email, loyalty, subscriptions, reviews and other tools you rely on.", "b": ["Klaviyo, Recharge, Smile and more", "Clean, tested data flow", "Fewer manual steps"]}, {"ic": "🔍", "t": "Audits & debugging", "d": "A review of your theme and apps to track down bugs, conflicts and slowdowns.", "b": ["Bug and conflict hunting", "A clear, prioritized fix list", "Fixes done too, if you want"]}];
+  var tabs = [].slice.call(document.querySelectorAll('.tab')), cur = 0, timer = null, auto = !reduce, hovering = false;
+  function show(i, user) {
+    cur = i;
+    tabs.forEach(function (t, k) {
+      t.classList.toggle('active', k === i); t.setAttribute('aria-selected', String(k === i));
+      t.classList.remove('auto');
     });
-  });
-
-  /* expandable service cards */
-  document.querySelectorAll('.svc-btn').forEach(function (btn) {
-    btn.addEventListener('click', function () {
-      var card = btn.parentNode, more = card.querySelector('.more'), open = btn.getAttribute('aria-expanded') === 'true';
-      btn.setAttribute('aria-expanded', String(!open));
-      more.hidden = open;
-      card.classList.toggle('open', !open);
-    });
-  });
+    var v = SV[i], panel = document.getElementById('panel');
+    document.getElementById('pic').textContent = v.ic;
+    document.getElementById('ptitle').textContent = v.t;
+    document.getElementById('pdesc').textContent = v.d;
+    document.getElementById('plist').innerHTML = v.b.map(function (x) { return '<li>' + x + '</li>'; }).join('');
+    panel.querySelectorAll(':scope > *').forEach(function (n) { n.style.animation = 'none'; n.offsetHeight; n.style.animation = ''; });
+    clearTimeout(timer);
+    if (user) auto = false;
+    if (auto) {
+      void tabs[i].offsetWidth; tabs[i].classList.add('auto');
+      timer = setTimeout(function () { if (hovering) { show(i); } else { show((i + 1) % tabs.length); } }, 6000);
+    }
+  }
+  tabs.forEach(function (t, k) { t.addEventListener('click', function () { show(k, true); }); });
+  var sc = document.querySelector('.showcase');
+  sc.addEventListener('pointerenter', function () { hovering = true; });
+  sc.addEventListener('pointerleave', function () { hovering = false; });
+  show(0);
 
   /* 3D tilt on the ID card */
   var tilt = document.getElementById('tilt');
