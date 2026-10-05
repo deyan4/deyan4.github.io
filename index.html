@@ -386,7 +386,8 @@
 
 
   /* ---------- brands ---------- */
-  .brands { display: flex; gap: 14px; width: max-content; padding: 4px 0; }
+  #brands .marquee { margin: -14px 0; }
+  .brands { display: flex; gap: 14px; width: max-content; padding: 18px 0; }
   .brand { flex: none; width: 176px; display: grid; place-items: center; height: 76px; padding: 14px 18px; border-radius: 14px; background: #fff; border: 1px solid var(--line); text-decoration: none; transition: box-shadow .25s, border-color .25s; }
   .brand.dk { background: #0f1620; }
   .brand img { max-width: 72%; max-height: 32px; width: auto; height: auto; object-fit: contain; }
@@ -397,6 +398,7 @@
   .quote { touch-action: pan-y; }
   .rvwrap { overflow: hidden; touch-action: pan-y; user-select: none; -webkit-user-select: none; }
   .rvtrack.drag { transition: none; }
+  .rvwrap { transition: height .45s ease; }
   .rvtrack { display: flex; transition: transform .7s cubic-bezier(.65, 0, .25, 1); will-change: transform; }
   .rv { flex: 0 0 100%; min-width: 0; margin: 0; padding: 0 4px; display: flex; flex-direction: column; justify-content: center; opacity: .25; transform: scale(.97); transition: opacity .7s, transform .7s; }
   .rv.on { opacity: 1; transform: none; }
@@ -479,6 +481,7 @@
     .tab { scroll-snap-align: start; }
     .panel { min-height: 0; padding: 26px; }
     .pic { display: none; }
+    .rvtrack { align-items: flex-start; }
     .speed { grid-template-columns: 1fr; justify-items: center; }
     .vitals { width: 100%; }
     nav.top .links a:not(.nav-cta) { display: none; }
@@ -853,11 +856,15 @@
   /* reviews carousel */
   (function () {
     var slides = [].slice.call(document.querySelectorAll('.rv')), dots = [].slice.call(document.querySelectorAll('.dotb')), box = document.getElementById('rvbox'), i = 0, timer = null, hover = false, stopped = false;
+    var wrap = box.querySelector('.rvwrap');
+    function fit() { wrap.style.height = matchMedia('(max-width: 820px)').matches ? slides[i].offsetHeight + 'px' : ''; }
+    addEventListener('resize', fit); addEventListener('load', fit);
     function go(n) {
       i = (n + slides.length) % slides.length;
       document.getElementById('rvtrack').style.transform = 'translateX(' + (-i * 100) + '%)';
       slides.forEach(function (s, k) { s.classList.toggle('on', k === i); s.setAttribute('aria-hidden', String(k !== i)); });
       dots.forEach(function (d, k) { d.classList.toggle('on', k === i); });
+      fit();
       clearTimeout(timer);
       if (!stopped) timer = setTimeout(function () { hover ? go(i) : go(i + 1); }, 7000);
     }
