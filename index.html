@@ -321,11 +321,6 @@
     nav.top .links a:not(.nav-cta) { display: none; }
   }
   @media (max-width: 520px) { .brands { grid-template-columns: repeat(2, 1fr); } .brand { height: 66px; padding: 10px 14px; } .brand img { max-height: 26px; } .quote { padding: 26px 20px; } .btn { flex: 1 1 100%; justify-content: center; } .panel .btn { align-self: stretch; flex: none; } .btn .long { display: none; } }
-  @media (prefers-reduced-motion: reduce) {
-    *, *::before, *::after { animation: none !important; transition: none !important; }
-    .reveal { opacity: 1; transform: none; }
-    html { scroll-behavior: auto; }
-  }
 </style>
 </head>
 <body>
@@ -591,7 +586,6 @@
   function type() {
     el.parentNode.classList.add('go');
     var s = phrases[p];
-    if (reduce) { el.innerHTML = '<b>' + s + '</b>'; return; }
     c += del ? -1 : 1;
     el.innerHTML = '<b>' + s.slice(0, c) + '</b>';
     var wait = del ? 28 : 65;
@@ -602,7 +596,6 @@
   /* hero headline: typewriter, then hand over to the role line */
   (function () {
     var parts = [['h1a', "Hi, I'm "], ['h1b', 'deyan4'], ['h1c', '.']], p = 0, c = 0, caret = document.getElementById('h1caret');
-    if (reduce) { parts.forEach(function (x) { document.getElementById(x[0]).textContent = x[1]; }); caret.remove(); type(); return; }
     function step() {
       var el = document.getElementById(parts[p][0]);
       c++; el.textContent = parts[p][1].slice(0, c);
@@ -629,7 +622,7 @@
 
   /* services showcase */
   var SV = [{"ic": "🎨", "t": "Theme customization", "d": "Your theme, adjusted to fit your brand and products, without breaking what already works.", "b": ["New sections and page layouts", "Design updates that match your brand", "Safe theme upgrades"]}, {"ic": "⚡", "t": "Speed optimization", "d": "I find what slows your store down and fix it, aiming for good LCP, INP and CLS scores.", "b": ["Spot heavy apps, scripts and images", "Fix Core Web Vitals issues", "Measure, fix, re-test"]}, {"ic": "🧩", "t": "Custom apps", "d": "A purpose-built Shopify app for your exact workflow, with no unused extras slowing the store.", "b": ["Built around how you work", "Only the features you need", "Supported after launch"]}, {"ic": "🛠️", "t": "Shopify Functions", "d": "Custom discount, shipping, payment and cart rules that run on Shopify's own infrastructure.", "b": ["Custom discounts and bundles", "Shipping and payment rules", "Fast and reliable at checkout"]}, {"ic": "🔌", "t": "Integrations", "d": "Connect your store to email, loyalty, subscriptions, reviews and other tools you rely on.", "b": ["Klaviyo, Recharge, Smile and more", "Clean, tested data flow", "Fewer manual steps"]}, {"ic": "🔍", "t": "Audits & debugging", "d": "A review of your theme and apps to track down bugs, conflicts and slowdowns.", "b": ["Bug and conflict hunting", "A clear, prioritized fix list", "Fixes done too, if you want"]}];
-  var tabs = [].slice.call(document.querySelectorAll('.tab')), cur = 0, timer = null, auto = !reduce, hovering = false;
+  var tabs = [].slice.call(document.querySelectorAll('.tab')), cur = 0, timer = null, auto = true, hovering = false;
   function show(i, user) {
     cur = i;
     tabs.forEach(function (t, k) {
@@ -673,7 +666,7 @@
 
   /* reviews carousel */
   (function () {
-    var slides = [].slice.call(document.querySelectorAll('.rv')), dots = [].slice.call(document.querySelectorAll('.dotb')), box = document.getElementById('rvbox'), i = 0, timer = null, hover = false, stopped = reduce;
+    var slides = [].slice.call(document.querySelectorAll('.rv')), dots = [].slice.call(document.querySelectorAll('.dotb')), box = document.getElementById('rvbox'), i = 0, timer = null, hover = false, stopped = false;
     function go(n) {
       i = (n + slides.length) % slides.length;
       document.getElementById('rvtrack').style.transform = 'translateX(' + (-i * 100) + '%)';
@@ -700,7 +693,6 @@
   /* count-up numbers */
   function countUp(node) {
     var end = parseFloat(node.dataset.count), dec = +(node.dataset.dec || 0), suf = node.dataset.suffix || '';
-    if (reduce) { node.textContent = end.toFixed(dec) + suf; return; }
     var t0 = null, dur = 1500;
     (function step(t) {
       if (t0 === null) t0 = t;
@@ -717,7 +709,7 @@
     var t0 = null;
     (function step(t) {
       if (t0 === null) t0 = t;
-      var k = reduce ? 1 : Math.min((t - t0) / 1600, 1), e = 1 - Math.pow(1 - k, 3);
+      var k = Math.min((t - t0) / 1600, 1), e = 1 - Math.pow(1 - k, 3);
       num.textContent = Math.round(100 * e);
       if (k < 1) requestAnimationFrame(step);
     })(performance.now());
