@@ -579,7 +579,7 @@
     /* warp-speed starfield: speeds up with scroll, steers toward the cursor */
     var sv = Math.min(Math.abs(scrollY - lastY), 80); lastY = scrollY;
     boost += (sv / 80 - boost) * .08;
-    var speed = reduce ? .0014 : .0035 + boost * .03;
+    var speed = reduce ? .003 : .006 + boost * .03;
     var cx = W / 2 + (mouse.x < 0 ? 0 : (mouse.x / W - .5) * W * .35), cy = H / 2 + (mouse.y < 0 ? 0 : (mouse.y / H - .5) * H * .35), f = Math.max(W, H) * .5;
     for (var s = 0; s < stars.length; s++) {
       var st = stars[s];
@@ -591,24 +591,33 @@
       var near = 1 - st.z, al = Math.min(1, near * 1.6 + .15);
       ctx.strokeStyle = light ? 'rgba(15,23,42,' + (al * .5) + ')' : 'rgba(' + st.hue + ',' + al + ')';
       ctx.lineWidth = .5 + near * 2;
-      ctx.beginPath(); ctx.moveTo(x0, y0); ctx.lineTo(x1 + (x1 - x0) * .2, y1 + (y1 - y0) * .2); ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(x0, y0); ctx.lineTo(x1 + (x1 - x0) * .6, y1 + (y1 - y0) * .6); ctx.stroke();
     }
     ctx.lineWidth = 1;
 
     /* shooting stars */
-    if (!reduce && Math.random() < .012 && shooters.length < 2) {
-      shooters.push({ x: Math.random() * W * .8 + W * .2, y: Math.random() * H * .4, vx: -(6 + Math.random() * 5), vy: 3 + Math.random() * 3, life: 1 });
+    if (Math.random() < .03 && shooters.length < 5) {
+      var ang = .45 + Math.random() * .35, v = 9 + Math.random() * 8, fromLeft = Math.random() < .5;
+      shooters.push({ x: fromLeft ? Math.random() * W * .5 : W * .5 + Math.random() * W * .5, y: -20 + Math.random() * H * .35,
+        vx: (fromLeft ? 1 : -1) * Math.cos(ang) * v, vy: Math.sin(ang) * v, life: 1, len: 10 + Math.random() * 8 });
     }
     for (var q = shooters.length - 1; q >= 0; q--) {
       var sh = shooters[q];
-      sh.x += sh.vx; sh.y += sh.vy; sh.life -= .014;
-      if (sh.life <= 0) { shooters.splice(q, 1); continue; }
-      var gr = ctx.createLinearGradient(sh.x, sh.y, sh.x - sh.vx * 9, sh.y - sh.vy * 9);
-      gr.addColorStop(0, light ? 'rgba(15,23,42,' + sh.life * .5 + ')' : 'rgba(255,255,255,' + sh.life + ')'); gr.addColorStop(1, 'rgba(255,255,255,0)');
-      ctx.strokeStyle = gr; ctx.lineWidth = 1.6;
-      ctx.beginPath(); ctx.moveTo(sh.x, sh.y); ctx.lineTo(sh.x - sh.vx * 9, sh.y - sh.vy * 9); ctx.stroke();
-      ctx.lineWidth = 1;
+      sh.x += sh.vx; sh.y += sh.vy; sh.life -= .009;
+      if (sh.life <= 0 || sh.x < -200 || sh.x > W + 200 || sh.y > H + 200) { shooters.splice(q, 1); continue; }
+      var tx = sh.x - sh.vx * sh.len, ty = sh.y - sh.vy * sh.len, a2 = Math.min(1, sh.life * 2);
+      var gr = ctx.createLinearGradient(sh.x, sh.y, tx, ty);
+      gr.addColorStop(0, light ? 'rgba(15,23,42,' + a2 * .8 + ')' : 'rgba(255,255,255,' + a2 + ')');
+      gr.addColorStop(.3, light ? 'rgba(56,189,248,' + a2 * .4 + ')' : 'rgba(120,220,255,' + a2 * .5 + ')');
+      gr.addColorStop(1, 'rgba(56,189,248,0)');
+      ctx.strokeStyle = gr; ctx.lineWidth = 2.6; ctx.lineCap = 'round';
+      ctx.beginPath(); ctx.moveTo(sh.x, sh.y); ctx.lineTo(tx, ty); ctx.stroke();
+      ctx.fillStyle = light ? 'rgba(15,23,42,' + a2 + ')' : 'rgba(255,255,255,' + a2 + ')';
+      ctx.shadowColor = '#7dd3fc'; ctx.shadowBlur = 14;
+      ctx.beginPath(); ctx.arc(sh.x, sh.y, 2.4, 0, 6.283); ctx.fill();
+      ctx.shadowBlur = 0; ctx.lineWidth = 1; ctx.lineCap = 'butt';
     }
+
     for (var i = 0; i < pts.length; i++) {
       var a = pts[i];
       a.x += a.vx * (reduce ? .4 : 1); a.y += a.vy * (reduce ? .4 : 1);
