@@ -118,9 +118,20 @@
     position: relative; display: inline-flex; align-items: center; gap: 8px;
     padding: 12px 22px; border-radius: 12px; border: 1px solid var(--line);
     background: var(--card); color: var(--text); text-decoration: none; font-weight: 600;
-    transition: transform .15s, border-color .15s, background .15s;
+    transition: border-color .2s, background .2s, box-shadow .25s;
   }
-  .btn:hover { transform: translateY(-2px); border-color: var(--accent); background: var(--card-hover); }
+  .btn:hover { border-color: transparent; box-shadow: 0 0 22px var(--glow); }
+  .btn:not(.primary):hover { background: radial-gradient(130px circle at var(--px, 50%) var(--py, 50%), var(--glow), transparent 70%), var(--card-hover); }
+  .btn.primary:hover { box-shadow: 0 0 28px var(--glow), 0 0 0 1px var(--accent2); filter: brightness(1.08); }
+  /* gradient border that fades in on hover */
+  .btn::before, .tab::before, .id-card::before {
+    content: ""; position: absolute; inset: 0; border-radius: inherit; padding: 1px; pointer-events: none;
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite: xor;
+    mask: linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0);
+    opacity: 0; transition: opacity .25s;
+  }
+  .btn:hover::before, .tab:hover::before, .tab.active::before, .id-card:hover::before { opacity: 1; }
   .btn.primary { background: linear-gradient(135deg, var(--accent), var(--accent2)); color: var(--accent-ink); border: 0; }
   .btn:focus-visible, .toggle:focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; }
 
@@ -131,9 +142,10 @@
     background: linear-gradient(160deg, var(--card-hover), var(--card));
     backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
     box-shadow: 0 30px 80px rgba(0,0,0,.28);
-    transition: transform .15s ease-out;
+    transition: box-shadow .3s;
     position: relative; overflow: hidden;
   }
+  .id-card:hover { box-shadow: 0 30px 80px rgba(0,0,0,.28), 0 0 40px var(--glow); }
   .id-card::after {
     content: ""; position: absolute; inset: 0; pointer-events: none;
     background: radial-gradient(300px circle at var(--gx, 50%) var(--gy, 0%), rgba(255,255,255,.14), transparent 60%);
@@ -163,11 +175,11 @@
     position: relative; display: flex; align-items: center; gap: 14px; text-align: left; width: 100%;
     padding: 16px 18px; border: 1px solid var(--line); border-radius: 16px; background: var(--card);
     color: var(--text); font: inherit; cursor: pointer; overflow: hidden;
-    transition: transform .2s, border-color .2s, background .2s;
+    transition: border-color .2s, background .2s, box-shadow .25s;
   }
-  .tab:hover { transform: translateX(4px); border-color: var(--accent); }
+  .tab:hover { background: radial-gradient(220px circle at var(--px, 50%) var(--py, 50%), var(--glow), transparent 70%), var(--card-hover); box-shadow: 0 0 24px var(--glow); }
   .tab:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
-  .tab.active { border-color: var(--accent); background: var(--card-hover); box-shadow: 0 0 0 1px var(--accent), 0 10px 30px var(--glow); transform: translateX(8px); }
+  .tab.active { border-color: var(--accent); background: var(--card-hover); box-shadow: 0 10px 30px var(--glow); }
   .tic { flex: none; width: 46px; height: 46px; display: grid; place-items: center; font-size: 1.4rem; border-radius: 14px; background: var(--glow); }
   .ttx b { display: block; font-size: 1rem; }
   .ttx small { color: var(--muted); font-size: .82rem; }
@@ -243,7 +255,6 @@
     .showcase { grid-template-columns: 1fr; }
     .tabs { grid-auto-flow: column; grid-auto-columns: 78%; overflow-x: auto; padding-bottom: 6px; scroll-snap-type: x mandatory; }
     .tab { scroll-snap-align: start; }
-    .tab:hover, .tab.active { transform: none; }
     .panel { min-height: 0; padding: 26px; }
     .speed { grid-template-columns: 1fr; justify-items: center; }
     .vitals { width: 100%; }
@@ -473,18 +484,16 @@
   sc.addEventListener('pointerleave', function () { hovering = false; });
   show(0);
 
-  /* 3D tilt on the ID card */
-  var tilt = document.getElementById('tilt');
-  if (!reduce && matchMedia('(hover: hover)').matches) {
-    tilt.addEventListener('pointermove', function (e) {
-      var r = tilt.getBoundingClientRect();
-      var x = (e.clientX - r.left) / r.width, y = (e.clientY - r.top) / r.height;
-      tilt.style.transform = 'rotateY(' + ((x - .5) * 16) + 'deg) rotateX(' + ((.5 - y) * 16) + 'deg)';
-      tilt.style.setProperty('--gx', (x * 100) + '%');
-      tilt.style.setProperty('--gy', (y * 100) + '%');
+  /* cursor-following glow on buttons, tabs and the ID card */
+  document.querySelectorAll('.btn, .tab, .id-card').forEach(function (n) {
+    n.addEventListener('pointermove', function (e) {
+      var r = n.getBoundingClientRect();
+      n.style.setProperty('--px', (e.clientX - r.left) + 'px');
+      n.style.setProperty('--py', (e.clientY - r.top) + 'px');
+      n.style.setProperty('--gx', ((e.clientX - r.left) / r.width * 100) + '%');
+      n.style.setProperty('--gy', ((e.clientY - r.top) / r.height * 100) + '%');
     });
-    tilt.addEventListener('pointerleave', function () { tilt.style.transform = ''; });
-  }
+  });
 
   /* count-up numbers */
   function countUp(node) {
