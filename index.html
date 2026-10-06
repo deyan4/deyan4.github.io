@@ -252,6 +252,9 @@
     padding: 6px 14px; border: 1px solid var(--line); border-radius: 999px;
     background: var(--card); font-size: .85rem; color: var(--muted);
   }
+  .avail-row { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 14px; }
+  .avail-row a { display: inline-block; line-height: 0; max-width: 100%; }
+  .avail-row img { max-width: 100%; height: auto; }
   .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 0 0 var(--accent); animation: ping 2s infinite; }
   @keyframes ping { 70% { box-shadow: 0 0 0 9px transparent; } 100% { box-shadow: 0 0 0 0 transparent; } }
   h1 { font-size: clamp(2.3rem, 7vw, 4rem); line-height: 1.05; letter-spacing: -.04em; margin: 18px 0 14px; }
@@ -304,9 +307,6 @@
     content: ""; position: absolute; inset: 0; pointer-events: none;
     background: radial-gradient(300px circle at var(--gx, 50%) var(--gy, 0%), rgba(255,255,255,.14), transparent 60%);
   }
-  .id-badge { margin-top: 12px; transform: translateZ(30px); }
-  .id-badge a { display: inline-block; line-height: 0; max-width: 100%; }
-  .id-badge img { max-width: 100%; height: auto; }
   .id-card .name { margin: 0 0 2px; font-weight: 700; font-size: 1.35rem; letter-spacing: -.02em; transform: translateZ(30px); }
   .id-card p { margin: 0; color: var(--muted); font-size: .92rem; }
   .id-meta { margin-top: 18px; display: grid; gap: 8px; font-size: .9rem; transform: translateZ(20px); }
@@ -523,7 +523,10 @@
 <main class="wrap" id="top">
   <header class="hero">
     <div>
-      <span class="pill"><span class="dot"></span> Available for new projects</span>
+      <div class="avail-row">
+        <span class="pill"><span class="dot"></span> Available for new projects</span>
+        <a href="https://shopexperts.com/freelancers/deyan-chernogorski?utm_source=expert_badge&amp;utm_medium=badge_embed&amp;utm_campaign=deyan-chernogorski&amp;utm_content=chip" target="_blank" rel="noopener"><img src="https://shopexperts.com/embed/badge/deyan-chernogorski.svg?style=chip" alt="Deyan Chernogorski — Verified on shopexperts" width="267" height="40" loading="lazy" style="border:0" /></a>
+      </div>
       <h1>Hi, I'm <span class="grad">deyan4</span>.</h1>
       <p class="typed" aria-live="off"><span id="typed"></span><span class="caret"></span></p>
       <p class="lead">
@@ -541,7 +544,6 @@
       <div class="id-card" id="tilt">
         <div class="name">Deyan Chernogorski</div>
         <p>Shopify Plus Engineer</p>
-        <div class="id-badge"><a href="https://shopexperts.com/freelancers/deyan-chernogorski?utm_source=expert_badge&amp;utm_medium=badge_embed&amp;utm_campaign=deyan-chernogorski&amp;utm_content=chip" target="_blank" rel="noopener"><img src="https://shopexperts.com/embed/badge/deyan-chernogorski.svg?style=chip" alt="Deyan Chernogorski — Verified on shopexperts" width="267" height="40" loading="lazy" style="border:0" /></a></div>
         <div class="id-meta">
           <div><span>Handle</span> @deyan4</div>
           <div><span>Email</span> <a href="#" data-u="deyan4" data-d="gmail.com" data-mail data-show></a></div>
