@@ -714,17 +714,11 @@
       <button class="btn primary" type="submit"><span>Send message →</span></button>
       <p class="status" id="cstatus" role="status" aria-live="polite"></p>
     </form>
-    <div class="cta reveal">
-      <a class="btn primary" href="https://dash.shopexperts.com/get-free-quote?expert=deyan-chernogorski&amp;cta_source=expert_profile_hero" target="_blank" rel="noopener"><span>Get a Quote →</span></a>
-      <a class="btn" href="#" data-u="deyan4" data-d="gmail.com" data-mail>Email me</a>
-      <a class="btn" href="https://www.linkedin.com/in/deyan4/" target="_blank" rel="noopener">LinkedIn</a>
-      <a class="btn" href="https://github.com/deyan4" target="_blank" rel="noopener">GitHub</a>
-    </div>
   </section>
   </div>
 </main>
 
-<footer>© <span id="yr"></span> deyan4 · Byala, Bulgaria · <a href="#" data-u="deyan4" data-d="gmail.com" data-mail data-show></a></footer>
+<footer>© <span id="yr"></span> deyan4 · Byala, Bulgaria · <a href="#" data-u="deyan4" data-d="gmail.com" data-mail data-show></a> · <a href="https://www.linkedin.com/in/deyan4/" target="_blank" rel="noopener">LinkedIn</a> · <a href="https://github.com/deyan4" target="_blank" rel="noopener">GitHub</a></footer>
 
 <script>
 (function () {
@@ -873,7 +867,7 @@
       b.disabled = true; st.className = 'status'; st.textContent = 'Sending…';
       fetch(f.action, { method: 'POST', body: new FormData(f), headers: { Accept: 'application/json' } })
         .then(function (r) { if (!r.ok) throw 0; f.reset(); st.className = 'status ok'; st.textContent = 'Thanks! Your message was sent. I\'ll get back to you soon.'; })
-        .catch(function () { st.className = 'status err'; st.textContent = 'Something went wrong. Please try again or use the email button below.'; })
+        .catch(function () { st.className = 'status err'; st.textContent = 'Something went wrong. Please try again or email me directly.'; })
         .then(function () { b.disabled = false; });
     });
   })();
