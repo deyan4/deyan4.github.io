@@ -381,6 +381,16 @@
   .bar { height: 8px; border-radius: 99px; background: var(--line); overflow: hidden; }
   .bar i { display: block; height: 100%; width: 0; border-radius: 99px; background: linear-gradient(90deg, var(--accent), var(--accent2)); transition: width 1.4s cubic-bezier(.2,.8,.2,1); }
 
+  /* ---------- promo ---------- */
+  .promo { display: grid; grid-template-columns: 1fr auto; gap: 28px; align-items: center;
+    border: 1px solid var(--line); background: var(--card); border-radius: 22px; padding: 32px; }
+  .promo .tag { display: inline-block; font-size: .72rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); margin-bottom: 10px; }
+  .promo h3 { margin: 0 0 10px; font-size: 1.35rem; letter-spacing: -.02em; }
+  .promo p { margin: 0; color: var(--muted); }
+  .promo ul { list-style: none; margin: 14px 0 0; padding: 0; display: grid; gap: 6px; font-size: .94rem; }
+  .promo li::before { content: "✓"; color: var(--accent); font-weight: 700; margin-right: 8px; }
+  @media (max-width: 760px) { .promo { grid-template-columns: 1fr; padding: 24px 20px; } .promo .btn { justify-content: center; } }
+
   /* ---------- marquee ---------- */
   .marquee { overflow-x: auto; scrollbar-width: none; cursor: grab; touch-action: pan-x pan-y; user-select: none; -webkit-user-select: none; mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent); -webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent); }
   .marquee::-webkit-scrollbar { display: none; }
@@ -611,6 +621,24 @@
         <li><div class="row"><b>INP</b><span>under 200 ms</span></div><div class="bar"><i data-w="88"></i></div></li>
         <li><div class="row"><b>CLS</b><span>under 0.1</span></div><div class="bar"><i data-w="96"></i></div></li>
       </ul>
+    </div>
+  </section>
+
+  <section id="schema-fix">
+    <h2 class="title reveal">Fix duplicate product schema</h2>
+    <p class="sub reveal">A fixed-scope package for stores running Judge.me reviews.</p>
+    <div class="promo reveal">
+      <div>
+        <span class="tag">Productized service</span>
+        <h3>Duplicate Product Schema Fix for Judge.me Stores</h3>
+        <p>When your theme and Judge.me both output product structured data, Google can flag duplicate or conflicting Product schema. I find the source and clean it up.</p>
+        <ul>
+          <li>Schema audit of your product pages</li>
+          <li>Duplicate markup removed at the source</li>
+          <li>Review stars and ratings kept intact</li>
+        </ul>
+      </div>
+      <a class="btn primary" href="https://shopexperts.com/freelancers/deyan-chernogorski/services/duplicate-product-schema-fix-for-judgeme-stores" target="_blank" rel="noopener"><span>View the package →</span></a>
     </div>
   </section>
 
