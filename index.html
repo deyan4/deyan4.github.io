@@ -3,22 +3,36 @@
 <head>
 <meta charset="utf-8">
 <meta name="google-site-verification" content="tHd_xwv73R2PJNtLa7_Urmrz8BbsrhtQckPNFt1KMnA">
-<!-- Google tag (gtag.js) -->
+<!-- Google tag (gtag.js) + Microsoft Clarity, gated by cookie consent -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-XBJ5L2BBXT"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
+  var consent = null;
+  try { consent = localStorage.getItem('consent'); } catch (e) {}
+  gtag('consent', 'default', {
+    ad_storage: 'denied', ad_user_data: 'denied', ad_personalization: 'denied',
+    analytics_storage: consent === 'granted' ? 'granted' : 'denied'
+  });
   gtag('js', new Date());
-
   gtag('config', 'G-XBJ5L2BBXT');
-</script>
-<!-- Microsoft Clarity -->
-<script type="text/javascript">
+
+  function loadClarity() {
+    if (window.__clarityLoaded) return;
+    window.__clarityLoaded = true;
     (function(c,l,a,r,i,t,y){
         c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
         t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
         y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
     })(window, document, "clarity", "script", "yw5udcc85s");
+    window.clarity('consentv2', { ad_Storage: 'denied', analytics_Storage: 'granted' });
+  }
+  function setConsent(v) {
+    try { localStorage.setItem('consent', v); } catch (e) {}
+    gtag('consent', 'update', { analytics_storage: v });
+    if (v === 'granted') loadClarity();
+  }
+  if (consent === 'granted') loadClarity();
 </script>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Deyan Chernogorski — Freelance Shopify Plus Developer</title>
@@ -605,6 +619,19 @@
     nav.top .links a:not(.nav-cta) { display: none; }
   }
   @media (max-width: 520px) { .brand { width: 140px; height: 66px; padding: 10px 14px; } .brand img { max-height: 26px; } .quote { padding: 26px 20px; } .btn { flex: 1 1 100%; justify-content: center; } .panel .btn { align-self: stretch; flex: none; } .btn .long { display: none; } }
+  /* ---------- consent banner + privacy ---------- */
+  .consent { position: fixed; left: 16px; right: 16px; bottom: 16px; max-width: 520px; margin: 0 auto; z-index: 100; background: var(--bg); color: var(--text); border: 1px solid var(--line); border-radius: 14px; padding: 16px 18px; box-shadow: 0 12px 40px rgba(0,0,0,.35); font-size: .88rem; line-height: 1.5; }
+  .consent[hidden] { display: none; }
+  .consent p { margin: 0 0 12px; color: var(--muted); }
+  .consent a { color: var(--accent); }
+  .consent .row { display: flex; gap: 10px; }
+  .consent button { flex: 1; font: inherit; font-weight: 600; padding: 9px 14px; border-radius: 10px; border: 1px solid var(--line); background: transparent; color: var(--text); cursor: pointer; }
+  .consent button.yes { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); }
+  #privacy { max-width: 720px; margin: 14px auto 0; padding: 0 16px; text-align: left; font-size: .85rem; line-height: 1.6; }
+  #privacy summary { cursor: pointer; text-align: center; }
+  #privacy h3 { font-size: .95rem; margin: 14px 0 6px; color: var(--text); }
+  #privacy p, #privacy li { margin: 0 0 8px; }
+  #privacy ul { padding-left: 18px; margin: 0 0 8px; }
 </style>
 </head>
 <body>
@@ -843,7 +870,27 @@
   </div>
 </main>
 
-<footer>© <span id="yr"></span> deyan4 · Byala, Bulgaria · <a href="#" data-u="deyan4" data-d="gmail.com" data-mail data-show></a> · <a href="https://www.linkedin.com/in/deyan4/" target="_blank" rel="noopener">LinkedIn</a> · <a href="https://github.com/deyan4" target="_blank" rel="noopener">GitHub</a></footer>
+<footer>© <span id="yr"></span> deyan4 · Byala, Bulgaria · <a href="#" data-u="deyan4" data-d="gmail.com" data-mail data-show></a> · <a href="https://www.linkedin.com/in/deyan4/" target="_blank" rel="noopener">LinkedIn</a> · <a href="https://github.com/deyan4" target="_blank" rel="noopener">GitHub</a> · <a href="#privacy" id="privacy-link">Privacy</a>
+  <details id="privacy">
+    <summary hidden>Privacy notice</summary>
+    <h3>Privacy notice</h3>
+    <p>This site is run by Deyan Chernogorski (deyan4), Byala, Bulgaria. Contact: <a href="#" data-u="deyan4" data-d="gmail.com" data-mail data-show></a>.</p>
+    <h3>Analytics (only with your consent)</h3>
+    <ul>
+      <li><b>Google Analytics</b> measures page views and general usage. It sets cookies only if you accept.</li>
+      <li><b>Microsoft Clarity</b> records anonymised heatmaps and session replays (clicks, scrolling, mouse movement) to help improve the site. It loads only if you accept. Form fields are masked. See <a href="https://privacy.microsoft.com/privacystatement" target="_blank" rel="noopener">Microsoft's privacy statement</a>.</li>
+    </ul>
+    <p>If you decline, neither tool sets cookies or records your session. You can change your choice any time with <a href="#" id="consent-reset">Cookie settings</a>.</p>
+    <h3>Contact form</h3>
+    <p>If you use the contact form, your name, email and message are sent via Formspree to me, only to reply to your enquiry.</p>
+    <h3>Your rights</h3>
+    <p>Under GDPR you can ask me to access, correct or delete your data by emailing me.</p>
+  </details>
+</footer>
+<div class="consent" id="consent" role="dialog" aria-label="Cookie consent" hidden>
+  <p>I use Google Analytics and Microsoft Clarity (heatmaps and session replays) to understand how the site is used. They only run if you accept. <a href="#privacy" data-open-privacy>Privacy notice</a></p>
+  <div class="row"><button type="button" id="consent-no">Decline</button><button type="button" class="yes" id="consent-yes">Accept</button></div>
+</div>
 
 <script>
 (function () {
@@ -1192,6 +1239,24 @@
     requestAnimationFrame(draw);
   }
   draw();
+})();
+</script>
+<script>
+(function () {
+  var box = document.getElementById('consent'), priv = document.getElementById('privacy');
+  var saved = null; try { saved = localStorage.getItem('consent'); } catch (e) {}
+  if (!saved) box.hidden = false;
+  function choose(v) { setConsent(v); box.hidden = true; }
+  document.getElementById('consent-yes').onclick = function () { choose('granted'); };
+  document.getElementById('consent-no').onclick = function () { choose('denied'); };
+  function openPriv() { priv.open = true; }
+  document.getElementById('privacy-link').addEventListener('click', openPriv);
+  document.querySelector('[data-open-privacy]').addEventListener('click', openPriv);
+  document.getElementById('consent-reset').addEventListener('click', function (e) {
+    e.preventDefault();
+    try { localStorage.removeItem('consent'); } catch (err) {}
+    box.hidden = false;
+  });
 })();
 </script>
 </body>
