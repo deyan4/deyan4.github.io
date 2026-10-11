@@ -8,8 +8,18 @@
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
+  // Consent is only required for EU/EEA/UK/CH visitors. The region is inferred from the
+  // browser timezone (no IP lookup); unknown timezones count as requiring consent.
+  var needsConsent = true;
+  try {
+    var tz = Intl.DateTimeFormat().resolvedOptions().timeZone || '';
+    var nonEU = /^Europe\/(Moscow|Kaliningrad|Samara|Volgograd|Kirov|Astrakhan|Saratov|Ulyanovsk|Minsk|Istanbul|Simferopol|Kyiv|Kiev|Uzhgorod|Zaporozhye|Chisinau|Tiraspol)$/;
+    if (tz && !/^Europe\/|^Atlantic\/(Reykjavik|Madeira|Azores|Canary|Faroe)$/.test(tz)) needsConsent = false;
+    else if (nonEU.test(tz)) needsConsent = false;
+  } catch (e) {}
   var consent = null;
   try { consent = localStorage.getItem('consent'); } catch (e) {}
+  if (!needsConsent && !consent) consent = 'granted';
   gtag('consent', 'default', {
     ad_storage: 'denied', ad_user_data: 'denied', ad_personalization: 'denied',
     analytics_storage: consent === 'granted' ? 'granted' : 'denied'
@@ -875,12 +885,12 @@
     <summary hidden>Privacy notice</summary>
     <h3>Privacy notice</h3>
     <p>This site is run by Deyan Chernogorski (deyan4), Byala, Bulgaria. Contact: <a href="#" data-u="deyan4" data-d="gmail.com" data-mail data-show></a>.</p>
-    <h3>Analytics (only with your consent)</h3>
+    <h3>Analytics (with your consent where required)</h3>
     <ul>
       <li><b>Google Analytics</b> measures page views and general usage. It sets cookies only if you accept.</li>
       <li><b>Microsoft Clarity</b> records anonymised heatmaps and session replays (clicks, scrolling, mouse movement) to help improve the site. It loads only if you accept. Form fields are masked. See <a href="https://privacy.microsoft.com/privacystatement" target="_blank" rel="noopener">Microsoft's privacy statement</a>.</li>
     </ul>
-    <p>If you decline, neither tool sets cookies or records your session. You can change your choice any time with <a href="#" id="consent-reset">Cookie settings</a>.</p>
+    <p>If you are in Europe, these tools stay off unless you accept; if you decline, neither sets cookies or records your session. You can change your choice any time with <a href="#" id="consent-reset">Cookie settings</a>.</p>
     <h3>Contact form</h3>
     <p>If you use the contact form, your name, email and message are sent via Formspree to me, only to reply to your enquiry.</p>
     <h3>Your rights</h3>
@@ -1245,7 +1255,7 @@
 (function () {
   var box = document.getElementById('consent'), priv = document.getElementById('privacy');
   var saved = null; try { saved = localStorage.getItem('consent'); } catch (e) {}
-  if (!saved) box.hidden = false;
+  if (!saved && needsConsent) box.hidden = false;
   function choose(v) { setConsent(v); box.hidden = true; }
   document.getElementById('consent-yes').onclick = function () { choose('granted'); };
   document.getElementById('consent-no').onclick = function () { choose('denied'); };
