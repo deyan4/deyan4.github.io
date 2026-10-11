@@ -505,9 +505,11 @@
   .promo ul { list-style: none; margin: 14px 0 0; padding: 0; display: grid; gap: 6px; font-size: .94rem; }
   .promo li::before { content: "✓"; color: var(--accent); font-weight: 700; margin-right: 8px; }
   @media (max-width: 760px) { .promo { grid-template-columns: 1fr; padding: 24px 20px; } .promo .btn { justify-content: center; } }
-  .pslider { display: flex; gap: 16px; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; -webkit-overflow-scrolling: touch; }
-  .pslider::-webkit-scrollbar { display: none; }
-  .pslider .promo { flex: 0 0 100%; min-width: 0; scroll-snap-align: start; box-sizing: border-box; }
+  .pwrap { overflow: hidden; touch-action: pan-y; user-select: none; -webkit-user-select: none; }
+  .pslider { display: flex; transition: transform .7s cubic-bezier(.65, 0, .25, 1); will-change: transform; }
+  .pslider.drag { transition: none; }
+  .pslider .promo { flex: 0 0 100%; min-width: 0; box-sizing: border-box; opacity: .25; transform: scale(.97); transition: opacity .7s, transform .7s; }
+  .pslider .promo.on { opacity: 1; transform: none; }
   .pnav { display: flex; align-items: center; justify-content: center; gap: 16px; margin-top: 18px; }
 
   /* ---------- marquee ---------- */
@@ -762,8 +764,8 @@
 
   <section id="schema-fix">
     <h2 class="title reveal">Featured Projects</h2>
-    <p class="sub reveal">Fixed-scope packages you can book today. Swipe or use the arrows for more.</p>
-    <div class="pslider reveal" id="pslider">
+    <p class="sub reveal">Fixed-scope packages you can book today.</p>
+    <div class="pwrap reveal" id="pwrap"><div class="pslider" id="pslider">
     <div class="promo">
       <div>
         <span class="tag">Productized service</span>
@@ -792,7 +794,7 @@
       </div>
       <a class="btn primary" href="https://shopexperts.com/freelancers/deyan-chernogorski/services/free-speed-store-performance-audit" target="_blank" rel="noopener"><span>View the project →</span></a>
     </div>
-    </div>
+    </div></div>
     <div class="pnav reveal">
       <button class="arrow" type="button" id="pprev" aria-label="Previous project">←</button>
       <div class="dots" id="pdots"></div>
@@ -1131,23 +1133,50 @@
     go(0);
   })();
 
-  /* featured projects slider */
+  /* featured projects slider: autoplay, arrows, dots, swipe / drag */
   (function () {
-    var box = document.getElementById('pslider'); if (!box) return;
-    var slides = box.children, dots = document.getElementById('pdots'), cur = 0;
-    for (var k = 0; k < slides.length; k++) (function (n) {
+    var wrap = document.getElementById('pwrap'), track = document.getElementById('pslider'); if (!track) return;
+    var slides = [].slice.call(track.children), dotsBox = document.getElementById('pdots'), dots = [];
+    var i = 0, timer = null, hover = false, stopped = false;
+    slides.forEach(function (sl, n) {
       var b = document.createElement('button'); b.type = 'button'; b.className = 'dotb'; b.setAttribute('aria-label', 'Project ' + (n + 1));
-      b.onclick = function () { go(n); }; dots.appendChild(b);
-    })(k);
-    function go(n) { n = Math.max(0, Math.min(slides.length - 1, n)); box.scrollTo({ left: slides[n].offsetLeft - box.offsetLeft, behavior: 'smooth' }); }
-    function mark() {
-      cur = Math.round(box.scrollLeft / (slides[0].offsetWidth + 16));
-      for (var k = 0; k < dots.children.length; k++) dots.children[k].classList.toggle('on', k === cur);
+      b.addEventListener('click', function () { stopped = true; go(n); }); dotsBox.appendChild(b); dots.push(b);
+    });
+    function go(n) {
+      i = (n + slides.length) % slides.length;
+      track.style.transform = 'translateX(' + (-i * 100) + '%)';
+      slides.forEach(function (s, k) { s.classList.toggle('on', k === i); s.setAttribute('aria-hidden', String(k !== i)); });
+      dots.forEach(function (d, k) { d.classList.toggle('on', k === i); });
+      clearTimeout(timer);
+      if (!stopped) timer = setTimeout(function () { hover ? go(i) : go(i + 1); }, 6000);
     }
-    box.addEventListener('scroll', mark, { passive: true });
-    document.getElementById('pprev').onclick = function () { go(cur - 1); };
-    document.getElementById('pnext').onclick = function () { go(cur + 1); };
-    mark();
+    document.getElementById('pprev').addEventListener('click', function () { stopped = true; go(i - 1); });
+    document.getElementById('pnext').addEventListener('click', function () { stopped = true; go(i + 1); });
+    wrap.addEventListener('pointerenter', function () { hover = true; });
+    wrap.addEventListener('pointerleave', function () { hover = false; });
+    var x0 = null, y0 = 0, dx = 0, lock = null;
+    function start(x, y, t) { if (t.closest('a, button')) return; x0 = x; y0 = y; dx = 0; lock = null; }
+    function move(x, y) {
+      if (x0 === null) return;
+      dx = x - x0;
+      if (lock === null && (Math.abs(dx) > 8 || Math.abs(y - y0) > 8)) lock = Math.abs(dx) > Math.abs(y - y0) ? 'x' : 'y';
+      if (lock === 'x') { track.classList.add('drag'); track.style.transform = 'translateX(calc(' + (-i * 100) + '% + ' + dx + 'px))'; }
+    }
+    function finish() {
+      if (x0 === null) return;
+      var moved = lock === 'x' ? dx : 0; x0 = null; dx = 0; lock = null;
+      track.classList.remove('drag');
+      if (Math.abs(moved) > 50) { stopped = true; go(i + (moved < 0 ? 1 : -1)); } else go(i);
+    }
+    wrap.addEventListener('touchstart', function (e) { var t = e.touches[0]; start(t.clientX, t.clientY, e.target); }, { passive: true });
+    wrap.addEventListener('touchmove', function (e) { var t = e.touches[0]; move(t.clientX, t.clientY); }, { passive: true });
+    wrap.addEventListener('touchend', finish);
+    wrap.addEventListener('touchcancel', finish);
+    wrap.addEventListener('mousedown', function (e) { start(e.clientX, e.clientY, e.target); });
+    window.addEventListener('mousemove', function (e) { move(e.clientX, e.clientY); });
+    window.addEventListener('mouseup', finish);
+    wrap.addEventListener('dragstart', function (e) { e.preventDefault(); });
+    go(0);
   })();
 
   /* count-up numbers */
