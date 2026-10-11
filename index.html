@@ -505,6 +505,10 @@
   .promo ul { list-style: none; margin: 14px 0 0; padding: 0; display: grid; gap: 6px; font-size: .94rem; }
   .promo li::before { content: "✓"; color: var(--accent); font-weight: 700; margin-right: 8px; }
   @media (max-width: 760px) { .promo { grid-template-columns: 1fr; padding: 24px 20px; } .promo .btn { justify-content: center; } }
+  .pslider { display: flex; gap: 16px; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; -webkit-overflow-scrolling: touch; }
+  .pslider::-webkit-scrollbar { display: none; }
+  .pslider .promo { flex: 0 0 100%; min-width: 0; scroll-snap-align: start; box-sizing: border-box; }
+  .pnav { display: flex; align-items: center; justify-content: center; gap: 16px; margin-top: 18px; }
 
   /* ---------- marquee ---------- */
   .marquee { overflow-x: auto; scrollbar-width: none; cursor: grab; touch-action: pan-x pan-y; user-select: none; -webkit-user-select: none; mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent); -webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent); }
@@ -757,9 +761,10 @@
   </section>
 
   <section id="schema-fix">
-    <h2 class="title reveal">Featured Project - Fix duplicate product schema</h2>
-    <p class="sub reveal">A fixed-scope package for stores running Judge.me reviews.</p>
-    <div class="promo reveal">
+    <h2 class="title reveal">Featured Projects</h2>
+    <p class="sub reveal">Fixed-scope packages you can book today. Swipe or use the arrows for more.</p>
+    <div class="pslider reveal" id="pslider">
+    <div class="promo">
       <div>
         <span class="tag">Productized service</span>
         <h3>Duplicate Product Schema Fix for Judge.me Stores</h3>
@@ -772,6 +777,26 @@
         </ul>
       </div>
       <a class="btn primary" href="https://shopexperts.com/freelancers/deyan-chernogorski/services/duplicate-product-schema-fix-for-judgeme-stores" target="_blank" rel="noopener"><span>View the project →</span></a>
+    </div>
+    <div class="promo">
+      <div>
+        <span class="tag">Free · Productized service</span>
+        <h3>Free Shopify Store Quick Look</h3>
+        <p>Is your Shopify store slower than it should be, or less profitable than its traffic suggests? Send me your store link, and within 3 business days I’ll tell you what I’d look at first. No call required.</p>
+        <ul>
+          <li>Your biggest speed problem, named in plain language</li>
+          <li>A first look at your apps, and which could be replaced with custom theme code</li>
+          <li>Three things on your mobile shopping path I’d fix first, each with a screenshot</li>
+          <li>All in a one-page summary, with no commitment</li>
+        </ul>
+      </div>
+      <a class="btn primary" href="https://shopexperts.com/freelancers/deyan-chernogorski/services/free-speed-store-performance-audit" target="_blank" rel="noopener"><span>View the project →</span></a>
+    </div>
+    </div>
+    <div class="pnav reveal">
+      <button class="arrow" type="button" id="pprev" aria-label="Previous project">←</button>
+      <div class="dots" id="pdots"></div>
+      <button class="arrow" type="button" id="pnext" aria-label="Next project">→</button>
     </div>
   </section>
 
@@ -1104,6 +1129,25 @@
     window.addEventListener('mousemove', function (e) { move(e.clientX, e.clientY); });
     window.addEventListener('mouseup', finish);
     go(0);
+  })();
+
+  /* featured projects slider */
+  (function () {
+    var box = document.getElementById('pslider'); if (!box) return;
+    var slides = box.children, dots = document.getElementById('pdots'), cur = 0;
+    for (var k = 0; k < slides.length; k++) (function (n) {
+      var b = document.createElement('button'); b.type = 'button'; b.className = 'dotb'; b.setAttribute('aria-label', 'Project ' + (n + 1));
+      b.onclick = function () { go(n); }; dots.appendChild(b);
+    })(k);
+    function go(n) { n = Math.max(0, Math.min(slides.length - 1, n)); box.scrollTo({ left: slides[n].offsetLeft - box.offsetLeft, behavior: 'smooth' }); }
+    function mark() {
+      cur = Math.round(box.scrollLeft / (slides[0].offsetWidth + 16));
+      for (var k = 0; k < dots.children.length; k++) dots.children[k].classList.toggle('on', k === cur);
+    }
+    box.addEventListener('scroll', mark, { passive: true });
+    document.getElementById('pprev').onclick = function () { go(cur - 1); };
+    document.getElementById('pnext').onclick = function () { go(cur + 1); };
+    mark();
   })();
 
   /* count-up numbers */
