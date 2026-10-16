@@ -1352,7 +1352,9 @@
   document.getElementById('consent-yes').onclick = function () { choose('granted'); };
   document.getElementById('consent-no').onclick = function () { choose('denied'); };
   function openPriv() { priv.open = true; }
-  document.getElementById('privacy-link').addEventListener('click', openPriv);
+  document.getElementById('privacy-link').addEventListener('click', function (e) {
+    if (priv.open) { e.preventDefault(); priv.open = false; } else openPriv();
+  });
   document.querySelector('[data-open-privacy]').addEventListener('click', openPriv);
   document.getElementById('consent-reset').addEventListener('click', function (e) {
     e.preventDefault();
