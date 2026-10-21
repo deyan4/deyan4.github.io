@@ -4,10 +4,10 @@
 <meta charset="utf-8">
 {% include "analytics.html" %}
 <meta name="viewport" content="width=device-width, initial-scale=1">
-{%- set pageTitle = (title + " — deyan4/dev") if title else "Thoughts — deyan4/dev" %}
+{%- set pageTitle = (title + " — deyan4/dev") if title else "Notes — deyan4/dev" %}
 <title>{{ pageTitle }}</title>
 <meta name="description" content="{{ description }}">
-<meta property="og:title" content="{{ title or 'Thoughts' }}">
+<meta property="og:title" content="{{ title or 'Notes' }}">
 <meta property="og:description" content="{{ description }}">
 <meta property="og:type" content="{{ 'article' if date else 'website' }}">
 <meta property="og:url" content="https://deyan4.github.io{{ page.url }}">
@@ -17,7 +17,7 @@
 <meta name="author" content="Deyan Chernogorski">
 <meta name="color-scheme" content="dark light">
 <link rel="canonical" href="https://deyan4.github.io{{ page.url }}">
-<link rel="alternate" type="application/rss+xml" title="deyan4/dev thoughts" href="/blog/feed.xml">
+<link rel="alternate" type="application/rss+xml" title="deyan4/dev notes" href="/blog/feed.xml">
 {% include "favicon.html" %}
 <script>
   try {
@@ -41,7 +41,7 @@
     <a class="logo" href="/">@deyan4<i>/</i>dev</a>
     <div class="links">
       <a href="/">Home</a>
-      <a href="/blog/">Thoughts</a>
+      <a href="/blog/">Notes</a>
       <a class="btn primary nav-cta" href="https://dash.shopexperts.com/get-free-quote?cta_source=header_get_matched" target="_blank" rel="noopener">Free Quick Look</a>
     </div>
     <button class="toggle" id="theme" aria-label="Toggle light and dark theme">◐</button>
