@@ -1,0 +1,15 @@
+<aside class="sidebar">
+  <div class="side-box">
+    <h2>Latest posts</h2>
+    <ul>
+      {%- for p in collections.posts | latest(5) %}
+      <li><a href="{{ p.url }}"{% if p.url == page.url %} aria-current="page"{% endif %}>{{ p.data.title }}</a><time datetime="{{ p.date | isoDate }}">{{ p.date | readableDate }}</time></li>
+      {%- endfor %}
+    </ul>
+  </div>
+  <div class="side-box">
+    <h2>Need a hand?</h2>
+    <p>I audit Shopify stores for slow pages and risky apps.</p>
+    <a class="btn primary" href="https://shopexperts.com/freelancers/deyan-chernogorski" target="_blank" rel="noopener"><span>Free Quick Look →</span></a>
+  </div>
+</aside>

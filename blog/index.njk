@@ -1,0 +1,17 @@
+---
+layout: blog.njk
+title: Blog
+description: Notes on Shopify Plus development, app risk, performance and custom theme code.
+permalink: /blog/
+---
+<h1>Blog</h1>
+<p class="sub">Notes on Shopify development, app risk and store performance.</p>
+<div class="blog-list">
+{%- for p in collections.posts | reverse %}
+  <a class="blog-card" href="{{ p.url }}">
+    <time datetime="{{ p.date | isoDate }}">{{ p.date | readableDate }}</time>
+    <h2>{{ p.data.title }}</h2>
+    <p>{{ p.data.description }}</p>
+  </a>
+{%- endfor %}
+</div>

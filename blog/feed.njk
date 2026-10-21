@@ -1,0 +1,21 @@
+---
+permalink: /blog/feed.xml
+eleventyExcludeFromCollections: true
+---
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0">
+  <channel>
+    <title>deyan4/dev blog</title>
+    <link>https://deyan4.github.io/blog/</link>
+    <description>Notes on Shopify development, app risk and store performance.</description>
+{%- for p in collections.posts | reverse %}
+    <item>
+      <title>{{ p.data.title | escape }}</title>
+      <link>https://deyan4.github.io{{ p.url }}</link>
+      <guid>https://deyan4.github.io{{ p.url }}</guid>
+      <pubDate>{{ p.date | rfc822 }}</pubDate>
+      <description>{{ p.data.description | escape }}</description>
+    </item>
+{%- endfor %}
+  </channel>
+</rss>

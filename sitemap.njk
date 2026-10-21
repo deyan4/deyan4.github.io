@@ -1,0 +1,26 @@
+---
+permalink: /sitemap.xml
+eleventyExcludeFromCollections: true
+---
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>https://deyan4.github.io/</loc>
+    <lastmod>2026-10-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>https://deyan4.github.io/blog/</loc>
+    <lastmod>{{ (collections.posts | last).date | isoDate }}</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+{%- for p in collections.posts | reverse %}
+  <url>
+    <loc>https://deyan4.github.io{{ p.url }}</loc>
+    <lastmod>{{ p.date | isoDate }}</lastmod>
+    <priority>0.7</priority>
+  </url>
+{%- endfor %}
+</urlset>
