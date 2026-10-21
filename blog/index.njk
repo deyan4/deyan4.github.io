@@ -4,14 +4,18 @@ title: Blog
 description: Notes on Shopify Plus development, app risk, performance and custom theme code.
 permalink: /blog/
 ---
-<h1>Blog</h1>
-<p class="sub">Notes on Shopify development, app risk and store performance.</p>
-<div class="blog-list">
+<section>
+  <h1 class="title reveal">Blog</h1>
+  <p class="sub reveal">Notes on Shopify development, app risk and store performance.</p>
+  <div class="blog-list">
 {%- for p in collections.posts | reverse %}
-  <a class="blog-card" href="{{ p.url }}">
-    <time datetime="{{ p.date | isoDate }}">{{ p.date | readableDate }}</time>
-    <h2>{{ p.data.title }}</h2>
-    <p>{{ p.data.description }}</p>
-  </a>
+    <article class="news reveal">
+      {%- if p.data.tag_label %}<span class="tag">{{ p.data.tag_label }}</span>{% endif %}
+      <h3><a href="{{ p.url }}">{{ p.data.title }}</a></h3>
+      <time datetime="{{ p.date | isoDate }}">{{ p.date | readableDate }}</time>
+      <p class="lede">{{ p.data.description }}</p>
+      <a class="btn primary" href="{{ p.url }}"><span>Read the article →</span></a>
+    </article>
 {%- endfor %}
-</div>
+  </div>
+</section>

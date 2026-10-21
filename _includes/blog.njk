@@ -48,23 +48,29 @@
   </div>
 </nav>
 
-<main class="wrap blog">
-  <div class="blog-main">
-    {%- if date %}
-    <a class="crumb" href="/blog/">← All posts</a>
-    <article>
-      {%- if tag_label %}<span class="tag">{{ tag_label }}</span>{% endif %}
-      <h1>{{ title }}</h1>
-      <time datetime="{{ date | isoDate }}">{{ date | readableDate }}</time>
-      <div class="post">
+<main class="wrap" id="top">
+  <div class="blog">
+    <div class="blog-main">
+{%- if date %}
+      <a class="crumb" href="/blog/">← All posts</a>
+      <section>
+        <h1 class="title reveal">{{ title }}</h1>
+        <p class="sub reveal">{{ date | readableDate }}{% if tag_label %} · {{ tag_label }}{% endif %}</p>
+        <article class="news reveal">
+          <div class="post-body">
 {{ content | safe }}
-      </div>
-    </article>
-    {%- else %}
+          </div>
+        </article>
+      </section>
+{%- else %}
 {{ content | safe }}
-    {%- endif %}
+{%- endif %}
+    </div>
+    {% include "sidebar.njk" %}
   </div>
-  {% include "sidebar.njk" %}
+  <div class="duo solo">
+  {% include "final.html" %}
+  </div>
 </main>
 
 {% include "footer.html" %}
@@ -82,6 +88,24 @@
     a.href = 'mailto:' + a.dataset.u + '@' + a.dataset.d + '?subject=' + encodeURIComponent('Shopify project');
     if (a.hasAttribute('data-show')) a.textContent = a.dataset.u + '@' + a.dataset.d;
   });
+  /* reveal on scroll */
+  var io = new IntersectionObserver(function (es) { es.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } }); }, { threshold: .1 });
+  document.querySelectorAll('.reveal').forEach(function (n) { io.observe(n); });
+
+  /* contact form (Formspree) */
+  (function () {
+    var f = document.getElementById('cform'), st = document.getElementById('cstatus');
+    if (!f) return;
+    f.addEventListener('submit', function (e) {
+      e.preventDefault();
+      var b = f.querySelector('button');
+      b.disabled = true; st.className = 'status'; st.textContent = 'Sending…';
+      fetch(f.action, { method: 'POST', body: new FormData(f), headers: { Accept: 'application/json' } })
+        .then(function (r) { if (!r.ok) throw 0; f.reset(); st.className = 'status ok'; st.textContent = 'Thanks! Your message was sent. I\'ll get back to you soon.'; })
+        .catch(function () { st.className = 'status err'; st.textContent = 'Something went wrong. Please try again or email me directly.'; })
+        .then(function () { b.disabled = false; });
+    });
+  })();
 </script>
 <script src="/js/bg.js"></script>
 </body>
