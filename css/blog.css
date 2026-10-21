@@ -406,3 +406,5 @@ h1.title { font-size: clamp(1.6rem, 4.5vw, 2.4rem); letter-spacing: -.02em; line
 @media (max-width: 820px) { .blog { grid-template-columns: 1fr; gap: 0; } .sidebar { position: static; padding-top: 48px; } }
 .duo.solo { grid-template-columns: minmax(0, 640px); justify-content: center; }
 .duo.solo .final { position: relative; top: auto; }
+@media (max-width: 820px) { nav.top .links a[href="/"], nav.top .links a[href="/blog/"] { display: inline; } }
+@media (max-width: 520px) { nav.top .links .nav-cta { display: none; } }
