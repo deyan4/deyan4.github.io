@@ -1,7 +1,7 @@
 ---
 title: "Duplicate Product Schema on a Judge.me Store: Why Google Flags It and How to Fix It"
 description: "When your theme and Judge.me both output product structured data, Google Search Console can flag duplicate or conflicting Product schema. Here is how the problem is found and cleaned up."
-date: 2026-10-23
+date: 2026-10-20
 tag_label: Structured data · SEO
 ---
 <p>When your theme and Judge.me both output product structured data (JSON-LD), Google Search Console can flag duplicate or conflicting Product schema and put your rich results at risk.</p>

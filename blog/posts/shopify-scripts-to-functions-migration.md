@@ -1,7 +1,7 @@
 ---
 title: "Still Running on Shopify Scripts? Your Checkout Logic Needs a New Home"
 description: "Shopify Scripts stopped running on June 30, 2026. Here is what that means for your discounts, shipping rules and payment customizations, and how they are rebuilt as Shopify Functions."
-date: 2026-10-22
+date: 2026-10-19
 tag_label: Functions & checkout
 ---
 <p>Shopify Scripts stopped running on June 30, 2026. If your store still has leftover Scripts logic, those custom discounts, shipping rules and payment customizations are no longer applying at checkout.</p>
