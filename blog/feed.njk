@@ -3,11 +3,14 @@ permalink: /blog/feed.xml
 eleventyExcludeFromCollections: true
 ---
 <?xml version="1.0" encoding="UTF-8"?>
-<rss version="2.0">
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>deyan4/dev blog</title>
     <link>https://deyan4.github.io/blog/</link>
+    <atom:link href="https://deyan4.github.io/blog/feed.xml" rel="self" type="application/rss+xml" />
     <description>Articles on Shopify development, app risk and store performance.</description>
+    <language>en-us</language>
+    <lastBuildDate>{{ (collections.posts | last).date | rfc822 }}</lastBuildDate>
 {%- for p in collections.posts | reverse %}
     <item>
       <title>{{ p.data.title | escape }}</title>

@@ -11,7 +11,7 @@ permalink: /blog/
 {%- for p in collections.posts | reverse %}
     <article class="news reveal">
       {%- if p.data.tag_label %}<span class="tag">{{ p.data.tag_label }}</span>{% endif %}
-      <h3><a href="{{ p.url }}">{{ p.data.title }}</a></h3>
+      <h2><a href="{{ p.url }}">{{ p.data.title }}</a></h2>
       <time datetime="{{ p.date | isoDate }}">{{ p.date | readableDate }}</time>
       <p class="lede">{{ p.data.description }}</p>
       <a class="btn primary" href="{{ p.url }}"><span>Read the article →</span></a>
