@@ -463,6 +463,7 @@
   .tab:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
   .tab.active { border-color: var(--accent); background: var(--card-hover); box-shadow: 0 10px 30px var(--glow); }
   .tic { flex: none; width: 46px; height: 46px; display: grid; place-items: center; font-size: 1.4rem; border-radius: 14px; background: var(--glow); }
+  .tic svg { width: 24px; height: 24px; }
   .ttx b { display: block; font-size: 1rem; }
   .ttx small { color: var(--muted); font-size: .82rem; }
   .tbar { position: absolute; left: 0; bottom: 0; height: 3px; width: 100%; transform: scaleX(0); transform-origin: 0 50%; background: linear-gradient(90deg, var(--accent), var(--accent2)); }
@@ -752,25 +753,25 @@
     <div class="showcase reveal">
       <div class="tabs" role="tablist" aria-label="Services">
         <button class="tab active" role="tab" id="tab0" aria-selected="true" aria-controls="panel" data-i="0">
-          <span class="tic">🎨</span><span class="ttx"><b>Theme customization</b><small>Tailored to your brand</small></span><span class="tbar"></span>
+          <span class="tic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="13.5" cy="6.5" r=".5"/><circle cx="17.5" cy="10.5" r=".5"/><circle cx="8.5" cy="7.5" r=".5"/><circle cx="6.5" cy="12.5" r=".5"/><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.93 0 1.5-.75 1.5-1.5 0-.39-.15-.74-.39-1.04-.23-.29-.38-.63-.38-1.02 0-.83.67-1.5 1.5-1.5H16c3.31 0 6-2.69 6-6 0-4.96-4.5-9-10-9z"/></svg></span><span class="ttx"><b>Theme customization</b><small>Tailored to your brand</small></span><span class="tbar"></span>
         </button>
         <button class="tab" role="tab" id="tab1" aria-selected="false" aria-controls="panel" data-i="1">
-          <span class="tic">⚡</span><span class="ttx"><b>Speed optimization</b><small>Faster loads, better Core Web Vitals</small></span><span class="tbar"></span>
+          <span class="tic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M13 2 3 14h9l-1 8 10-12h-9l1-8z"/></svg></span><span class="ttx"><b>Speed optimization</b><small>Faster loads, better Core Web Vitals</small></span><span class="tbar"></span>
         </button>
         <button class="tab" role="tab" id="tab2" aria-selected="false" aria-controls="panel" data-i="2">
-          <span class="tic">🧩</span><span class="ttx"><b>Custom apps</b><small>When off-the-shelf doesn't fit</small></span><span class="tbar"></span>
+          <span class="tic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19.44 12.5a2.5 2.5 0 0 0 0-5H17V5a1 1 0 0 0-1-1h-3.44a2.5 2.5 0 0 0-5 0H4a1 1 0 0 0-1 1v3.44a2.5 2.5 0 0 1 0 5V17a1 1 0 0 0 1 1h3.44a2.5 2.5 0 0 1 5 0H16a1 1 0 0 0 1-1v-4.5z" transform="translate(1 1)"/></svg></span><span class="ttx"><b>Custom apps</b><small>When off-the-shelf doesn't fit</small></span><span class="tbar"></span>
         </button>
         <button class="tab" role="tab" id="tab3" aria-selected="false" aria-controls="panel" data-i="3">
-          <span class="tic">🛠️</span><span class="ttx"><b>Shopify Functions</b><small>Custom checkout logic</small></span><span class="tbar"></span>
+          <span class="tic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg></span><span class="ttx"><b>Shopify Functions</b><small>Custom checkout logic</small></span><span class="tbar"></span>
         </button>
         <button class="tab" role="tab" id="tab4" aria-selected="false" aria-controls="panel" data-i="4">
-          <span class="tic">🔌</span><span class="ttx"><b>Integrations</b><small>Your tools, connected</small></span><span class="tbar"></span>
+          <span class="tic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22v-5"/><path d="M9 8V2"/><path d="M15 8V2"/><path d="M18 8v5a4 4 0 0 1-4 4h-4a4 4 0 0 1-4-4V8z"/></svg></span><span class="ttx"><b>Integrations</b><small>Your tools, connected</small></span><span class="tbar"></span>
         </button>
         <button class="tab" role="tab" id="tab5" aria-selected="false" aria-controls="panel" data-i="5">
-          <span class="tic">🔍</span><span class="ttx"><b>Audits &amp; debugging</b><small>Find what's slowing or breaking</small></span><span class="tbar"></span>
+          <span class="tic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg></span><span class="ttx"><b>Audits &amp; debugging</b><small>Find what's slowing or breaking</small></span><span class="tbar"></span>
         </button>
         <button class="tab" role="tab" id="tab6" aria-selected="false" aria-controls="panel" data-i="6">
-          <span class="tic">🖼️</span><span class="ttx"><b>Shopify Canvas</b><small>AI-assisted builds &amp; readiness audits</small></span><span class="tbar"></span>
+          <span class="tic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="18" height="18" x="3" y="3" rx="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.09-3.09a2 2 0 0 0-2.82 0L6 21"/></svg></span><span class="ttx"><b>Shopify Canvas</b><small>AI-assisted builds &amp; readiness audits</small></span><span class="tbar"></span>
         </button>
       </div>
       <div class="panel" id="panel" role="tabpanel" aria-live="polite">
