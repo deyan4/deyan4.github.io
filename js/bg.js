@@ -39,6 +39,7 @@
   function draw() {
     ctx.clearRect(0, 0, W, H);
     var light = root.dataset.theme === 'light';
+    if (light) { requestAnimationFrame(draw); return; }
     var col = light ? '37,99,235' : '59,156,255';
     var now = performance.now() / 1000;
 
