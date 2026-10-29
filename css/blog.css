@@ -11,16 +11,16 @@
   --glow: rgba(59,156,255,.2);
 }
 :root[data-theme="light"] {
-  --bg: #f7f7fb;
+  --bg: #f3f8ff;
   --card: rgba(255,255,255,.72);
   --card-hover: #ffffff;
-  --text: #14142b;
-  --muted: #5f6280;
-  --line: rgba(30,27,75,.1);
-  --accent: #6d4aff;
-  --accent2: #ec4899;
+  --text: #0b1b33;
+  --muted: #55698a;
+  --line: rgba(15,60,130,.12);
+  --accent: #2f6bff;
+  --accent2: #06b6d4;
   --accent-ink: #ffffff;
-  --glow: rgba(109,74,255,.14);
+  --glow: rgba(47,107,255,.15);
 }
 * { box-sizing: border-box; }
 html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
