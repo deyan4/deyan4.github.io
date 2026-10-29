@@ -185,6 +185,7 @@ h1 { font-size: clamp(2.3rem, 7vw, 4rem); line-height: 1.05; letter-spacing: -.0
 .panel > *:nth-child(4) { animation-delay: .15s; } .panel > *:nth-child(5) { animation-delay: .2s; }
 @keyframes pin { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
 .pic { font-size: 3.2rem; line-height: 1; margin-bottom: 14px; width: 84px; height: 84px; display: grid; place-items: center; border-radius: 24px; background: var(--glow); border: 1px solid var(--line); }
+.pic svg { width: 40px; height: 40px; stroke-width: 1.5; }
 .panel h3 { margin: 0 0 8px; font-size: 1.7rem; letter-spacing: -.02em; }
 .panel p { margin: 0 0 18px; color: var(--muted); max-width: 50ch; font-size: 1.02rem; }
 .panel ul { list-style: none; margin: 0 0 26px; padding: 0; display: grid; gap: 10px; }
