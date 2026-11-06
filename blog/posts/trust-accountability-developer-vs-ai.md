@@ -33,5 +33,3 @@ tag_label: Working together
 
 <h2>Where to start</h2>
 <p>If you want a developer who knows your store and stands behind the work, send me a short description of what you need. I will reply with a clear plan, apply the changes to a duplicate theme, and make sure you are happy before anything goes live.</p>
-
-<a class="btn primary" href="https://dash.shopexperts.com/get-free-quote?expert=deyan-chernogorski&amp;cta_source=expert_profile_hero" target="_blank" rel="noopener"><span>Get a quote →</span></a>
