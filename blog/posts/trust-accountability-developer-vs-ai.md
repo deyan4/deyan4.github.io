@@ -3,6 +3,8 @@ title: "Trust, Accountability and Long-Term Relationships: Why a Shopify Develop
 description: "AI can write code quickly, but it cannot own the result. Here is why trust, accountability and a long-term working relationship still matter when you choose who looks after your Shopify store."
 date: 2026-11-06
 tag_label: Working together
+permalink: false
+eleventyExcludeFromCollections: true
 ---
 <p>AI is now part of everyone's workflow, mine included, so writing code is no longer what sets a developer apart. What matters is who understands your store, tests the change before it goes live, and takes responsibility if something goes wrong. That is trust and accountability, and no tool provides them.</p>
 
