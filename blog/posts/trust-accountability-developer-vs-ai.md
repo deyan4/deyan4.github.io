@@ -12,14 +12,6 @@ tag_label: Working together
 <h2>Accountability means someone owns the result</h2>
 <p>If a change breaks your checkout at 9 a.m. on a sale day, you need a person who picks up the message, takes responsibility and fixes it. An AI tool cannot be held to anything. It will not call you back, it will not apologize, and it will not notice a week later that its suggestion quietly broke your product schema. With a developer, the outcome is their name on the work.</p>
 
-<h2>Where AI falls short on a live store</h2>
-<ul>
-  <li><b>It cannot see your theme.</b> It answers from general patterns, not from the actual code, apps and settings in your store.</li>
-  <li><b>It sounds confident when it is wrong.</b> A snippet can look perfect and still conflict with an app or an older section.</li>
-  <li><b>It does not test.</b> Checking real orders, mobile layouts and tracking events is still work somebody has to do.</li>
-  <li><b>It does not know your goals.</b> It will not tell you that a requested change could hurt conversions or page speed.</li>
-</ul>
-
 <h2>What a long-term relationship gives you</h2>
 <ul>
   <li><b>Faster fixes.</b> Familiarity with your theme means problems are found in minutes, not hours.</li>
