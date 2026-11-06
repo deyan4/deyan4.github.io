@@ -243,7 +243,7 @@ h1 { font-size: clamp(2.3rem, 7vw, 4rem); line-height: 1.05; letter-spacing: -.0
 .news details > summary { list-style: none; cursor: pointer; display: inline-block; color: var(--accent); font-weight: 600; margin-bottom: 4px; }
 .news details > summary::-webkit-details-marker { display: none; }
 .news details[open] > summary { display: none; }
-.post-body h2 { margin: 24px 0 8px; font-size: 1.05rem; letter-spacing: -.01em; }
+.post-body h2 { margin: 24px 0 8px; font-size: 1.3rem; letter-spacing: -.01em; }
 .news p { margin: 0 0 14px; color: var(--muted); }
 .news ul, .news ol { margin: 0 0 14px; padding-left: 22px; color: var(--muted); display: grid; gap: 6px; }
 .news .tw { overflow-x: auto; margin: 0 0 16px; border: 1px solid var(--line); border-radius: 14px; }
@@ -399,7 +399,8 @@ h1.title { font-size: clamp(1.6rem, 4.5vw, 2.4rem); letter-spacing: -.02em; line
 .blog-list { display: grid; gap: 16px; }
 .blog .news h2 a { text-decoration: none; color: inherit; }
 .blog .news h2 a:hover { color: var(--accent); }
-.post-body > p:first-of-type { color: var(--text); font-size: 1.05rem; }
+.post-body p, .post-body li { font-size: 1.15rem; line-height: 1.7; }
+.post-body > p:first-of-type { color: var(--text); font-size: 1.25rem; }
 .news a:not(.btn) { color: var(--accent); }
 .news .btn { color: var(--accent-ink); }
 .sidebar { position: sticky; top: 84px; display: grid; gap: 18px; padding-top: 72px; }
