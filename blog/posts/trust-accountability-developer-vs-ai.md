@@ -4,7 +4,7 @@ description: "AI can write code quickly, but it cannot own the result. Here is w
 date: 2026-11-06
 tag_label: Working together
 ---
-<p>AI tools can now write Liquid, CSS and JavaScript in seconds. That is genuinely useful, and I use it myself. But writing code is only one part of looking after a store that takes real orders. The rest is trust, accountability and knowing your business over time, and that is where a person still makes the difference.</p>
+<p>AI is now part of everyone's workflow, mine included, so writing code is no longer what sets a developer apart. What matters is who understands your store, tests the change before it goes live, and takes responsibility if something goes wrong. That is trust and accountability, and no tool provides them.</p>
 
 <h2>Trust is built over time</h2>
 <p>When you work with the same developer for months or years, they learn how your store actually runs: which apps you depend on, which pages bring in revenue, what you changed last quarter and why. You do not have to explain it again each time. An AI tool starts every conversation with no memory of your store, your history or your priorities, so you end up re-explaining the same context and hoping nothing important is missed.</p>
