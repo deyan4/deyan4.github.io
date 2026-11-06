@@ -402,6 +402,7 @@ h1.title { font-size: clamp(1.6rem, 4.5vw, 2.4rem); letter-spacing: -.02em; line
 .post-body p, .post-body li { font-size: 1.15rem; line-height: 1.7; }
 .post-body > p:first-of-type { color: var(--text); font-size: 1.25rem; }
 :root[data-theme="dark"] .post-body p, :root[data-theme="dark"] .post-body li { color: #fff; }
+:root[data-theme="dark"] .news .lede { color: #fff; }
 .news a:not(.btn) { color: var(--accent); }
 .news .btn { color: var(--accent-ink); }
 .sidebar { position: sticky; top: 84px; display: grid; gap: 18px; padding-top: 72px; }
